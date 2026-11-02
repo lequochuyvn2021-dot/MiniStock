@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng nhập - MiniStock Quản Lý Kho &amp; Bán Hàng</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo/icon.svg">
+  <script src="js/theme.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<main class="login-wrapper">
+  <div class="login-card">
+    <header class="login-brand">
+      <img src="images/logo/logo.svg" alt="MiniStock Logo">
+      <p>Hệ thống Quản lý Kho &amp; Bán hàng Cửa hàng Nhỏ</p>
+    </header>
+
+    <!-- BIỂU MẪU ĐĂNG NHẬP (CÓ VALIDATION MẬT KHẨU TỐI THIỂU 6 KÝ TỰ) -->
+    <form id="login-form" novalidate>
+      <div class="form-group mb-16">
+        <label class="form-label" for="login-username">Tên đăng nhập <span class="required">*</span></label>
+        <input type="text" id="login-username" name="username" class="form-control" placeholder="Nhập tên đăng nhập (ví dụ: admin)" autocomplete="username" required>
+        <div id="username-error" class="form-error"></div>
+      </div>
+
+      <div class="form-group mb-20">
+        <label class="form-label" for="login-password">Mật khẩu <span class="required">*</span></label>
+        <input type="password" id="login-password" name="password" class="form-control" placeholder="Tối thiểu 6 ký tự (ví dụ: admin123)" autocomplete="current-password" required>
+        <div id="password-error" class="form-error"></div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block btn-login">
+        🚀 Đăng nhập vào hệ thống
+      </button>
+    </form>
+
+    <!-- Nút bấm chọn nhanh tài khoản demo phục vụ chấm đồ án & kiểm thử -->
+    <div class="demo-accounts-box">
+      <div class="demo-accounts-title">
+        <span>🔑</span> Tài khoản demo (Nhấp để điền nhanh):
+      </div>
+      <div class="demo-btn-group">
+        <button type="button" class="btn-demo-fill" data-user="admin" data-pass="admin123">
+          <span>👨‍💼 <strong>Admin</strong> (Toàn quyền quản trị)</span>
+          <span class="badge badge-role-admin">admin</span>
+        </button>
+        <button type="button" class="btn-demo-fill" data-user="staff" data-pass="staff123">
+          <span>👩‍💼 <strong>Staff</strong> (Bán hàng POS &amp; Đơn hàng)</span>
+          <span class="badge badge-role-staff">staff</span>
+        </button>
+        <button type="button" class="btn-demo-fill" data-user="warehouse" data-pass="ware123">
+          <span>👷‍♂️ <strong>Warehouse</strong> (Quản lý kho &amp; Nhập xuất)</span>
+          <span class="badge badge-role-warehouse">warehouse</span>
+        </button>
+      </div>
+      <p class="login-note">
+        * Lưu ý: Phiên bản đồ án frontend mô phỏng xác thực bằng LocalStorage nhằm phục vụ học tập công nghệ web cơ bản.
+      </p>
+    </div>
+  </div>
+</main>
+
+<!-- Scripts cơ bản -->
+<script src="js/storage.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Nếu đã đăng nhập thì tự động điều hướng vào Dashboard
+    if (Auth.isLoggedIn()) {
+      window.location.href = 'index.html';
+      return;
+    }
+
+    const loginForm = document.getElementById('login-form');
+    const usernameInput = document.getElementById('login-username');
+    const passwordInput = document.getElementById('login-password');
+    const userErr = document.getElementById('username-error');
+    const passErr = document.getElementById('password-error');
+
+    function clearErrors() {
+      userErr.textContent = '';
+      passErr.textContent = '';
+      usernameInput.classList.remove('input-error');
+      passwordInput.classList.remove('input-error');
+    }
+
+    // Nút điền nhanh tài khoản demo
+    document.querySelectorAll('.btn-demo-fill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        clearErrors();
+        usernameInput.value = btn.getAttribute('data-user');
+        passwordInput.value = btn.getAttribute('data-pass');
+        Toast.info(`Đã điền tài khoản: ${btn.getAttribute('data-user')}`);
+      });
+    });
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault(); // Ngăn submit form mặc định
+      clearErrors();
+
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+      let hasError = false;
+
+      // 1. Kiểm tra username bắt buộc
+      if (Validation.isEmpty(username)) {
+        userErr.textContent = 'Vui lòng nhập tên đăng nhập!';
+        usernameInput.classList.add('input-error');
+        hasError = true;
+      }
+
+      // 2. Kiểm tra password bắt buộc và độ dài tối thiểu 6 ký tự theo tiêu chí môn học
+      if (Validation.isEmpty(password)) {
+        passErr.textContent = 'Vui lòng nhập mật khẩu!';
+        passwordInput.classList.add('input-error');
+        hasError = true;
+      } else if (password.length < 6) {
+        passErr.textContent = 'Mật khẩu phải có độ dài tối thiểu 6 ký tự!';
+        passwordInput.classList.add('input-error');
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      const result = Auth.login(username, password);
+
+      if (result.success) {
+        Toast.success(`Xin chào ${result.user.fullName}! Đang chuyển hướng...`);
+        setTimeout(() => {
+          if (result.user.role === 'staff') {
+            window.location.href = 'sales.html';
+          } else if (result.user.role === 'warehouse') {
+            window.location.href = 'inventory.html';
+          } else {
+            window.location.href = 'index.html';
+          }
+        }, 600);
+      } else {
+        passErr.textContent = result.message;
+        passwordInput.classList.add('input-error');
+        Toast.error(result.message);
+      }
+    });
+  });
+</script>
+</body>
+</html>

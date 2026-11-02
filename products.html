@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Sản Phẩm - MiniStock</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo/icon.svg">
+  <script src="js/theme.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="app-container">
+  <!-- SIDEBAR ĐIỀU HƯỚNG -->
+  <aside class="app-sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-brand">
+        <img src="images/logo/logo.svg" alt="MiniStock Logo">
+      </a>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li class="menu-category-title">TỔNG QUAN</li>
+      <li class="menu-item">
+        <a href="index.html" class="menu-link">
+          <span class="menu-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">BÁN HÀNG &amp; KHO</li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="sales.html" class="menu-link">
+          <span class="menu-icon">🛒</span>
+          <span>Bán hàng (POS)</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="orders.html" class="menu-link">
+          <span class="menu-icon">📑</span>
+          <span>Quản lý đơn hàng</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,warehouse">
+        <a href="inventory.html" class="menu-link">
+          <span class="menu-icon">📦</span>
+          <span>Quản lý kho</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">DANH MỤC &amp; SẢN PHẨM</li>
+      <li class="menu-item" data-role-allow="admin,staff,warehouse">
+        <a href="products.html" class="menu-link active">
+          <span class="menu-icon">🏷️</span>
+          <span>Sản phẩm</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,warehouse">
+        <a href="categories.html" class="menu-link">
+          <span class="menu-icon">📂</span>
+          <span>Danh mục</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">ĐỐI TÁC &amp; KHÁCH HÀNG</li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="customers.html" class="menu-link">
+          <span class="menu-icon">👥</span>
+          <span>Khách hàng</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">BÁO CÁO &amp; HỆ THỐNG</li>
+      <li class="menu-item" data-role-allow="admin">
+        <a href="reports.html" class="menu-link">
+          <span class="menu-icon">📈</span>
+          <span>Báo cáo thống kê</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin">
+        <a href="users.html" class="menu-link">
+          <span class="menu-icon">⚙️</span>
+          <span>Tài khoản &amp; Vai trò</span>
+        </a>
+      </li>
+      <li class="menu-category-title">THÔNG TIN</li>
+      <li class="menu-item">
+        <a href="about.html" class="menu-link">
+          <span class="menu-icon">ℹ️</span>
+          <span>Giới thiệu</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="contact.html" class="menu-link">
+          <span class="menu-icon">✉️</span>
+          <span>Liên hệ &amp; Góp ý</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div><strong>MiniStock</strong> v1.0</div>
+      <button type="button" id="btn-reset-demo" class="btn btn-outline btn-sm" title="Khôi phục dữ liệu mẫu gốc">🔄</button>
+    </div>
+  </aside>
+
+  <!-- NỘI DUNG CHÍNH -->
+  <div class="app-main">
+    <header class="app-header">
+      <div class="header-left">
+        <button type="button" id="btn-sidebar-toggle" class="btn-sidebar-toggle" aria-label="Mở menu">☰</button>
+        <div class="header-title-box">
+          <h1 id="header-page-title">Quản Lý Sản Phẩm</h1>
+          <p>Danh sách mặt hàng, giá bán, giá vốn và trạng thái tồn kho</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button type="button" id="btn-export-backup" class="btn btn-outline btn-sm" title="Sao lưu JSON">💾<span class="btn-label"> Sao lưu</span></button>
+        <div class="header-user-profile">
+          <div class="user-avatar" id="header-user-avatar">👤</div>
+          <div class="user-info">
+            <span class="user-name" id="header-user-name">Đang tải...</span>
+            <span class="role-badge" id="header-user-role">...</span>
+          </div>
+        </div>
+        <button type="button" id="btn-logout" class="btn btn-outline btn-sm text-danger" title="Đăng xuất">🚪<span class="btn-label"> Đăng xuất</span></button>
+      </div>
+    </header>
+
+    <main class="app-content">
+      <!-- FORM 2: FORM TÌM KIẾM VÀ LỌC SẢN PHẨM (TIÊU CHÍ BẮT BUỘC MÔN HỌC) -->
+      <form id="product-filter-form" class="filter-form-card">
+        <div class="filter-form-row">
+          <div class="filter-inputs-group">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="product-search" name="keyword" placeholder="Nhập mã (SP001) hoặc tên sản phẩm..." aria-label="Từ khóa tìm kiếm">
+            </div>
+
+            <select id="product-category-filter" name="category" class="select-control" aria-label="Lọc theo danh mục">
+              <option value="">-- Tất cả danh mục --</option>
+            </select>
+
+            <select id="product-price-filter" name="priceRange" class="select-control" aria-label="Lọc theo khoảng giá">
+              <option value="">-- Tất cả khoảng giá --</option>
+              <option value="under-50">Dưới 50.000 đ</option>
+              <option value="50-200">Từ 50.000 đ đến 200.000 đ</option>
+              <option value="over-200">Trên 200.000 đ</option>
+            </select>
+
+            <select id="product-stock-filter" name="stock" class="select-control" aria-label="Lọc theo tình trạng tồn kho">
+              <option value="">-- Tất cả tồn kho --</option>
+              <option value="in-stock">Còn hàng (> 5)</option>
+              <option value="low-stock">Sắp hết hàng (1 - 5)</option>
+              <option value="out-stock">Đã hết hàng (0)</option>
+            </select>
+          </div>
+
+          <div class="filter-actions-group">
+            <button type="submit" id="btn-search-product" class="btn btn-primary btn-sm">
+              🔍 Tìm kiếm &amp; Lọc
+            </button>
+            <button type="button" id="btn-reset-product-filter" class="btn btn-outline btn-sm">
+              🔄 Đặt lại
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>Danh sách sản phẩm</span>
+            <span class="badge badge-secondary" id="product-count-badge">0 sản phẩm</span>
+          </div>
+          <div class="d-flex align-center gap-10">
+            <label for="product-sort" class="text-muted u-fs-13">Sắp xếp:</label>
+            <select id="product-sort" class="select-control select-sm">
+              <option value="name-asc">Tên (A &rarr; Z)</option>
+              <option value="name-desc">Tên (Z &rarr; A)</option>
+              <option value="price-asc">Giá bán thấp &rarr; cao</option>
+              <option value="price-desc">Giá bán cao &rarr; thấp</option>
+              <option value="stock-asc">Tồn kho ít &rarr; nhiều</option>
+              <option value="stock-desc">Tồn kho nhiều &rarr; ít</option>
+            </select>
+
+            <div data-permission="manage_products">
+              <button type="button" id="btn-add-product" class="btn btn-primary">
+                ➕ Thêm sản phẩm mới
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <!-- BẢNG DỮ LIỆU SẢN PHẨM -->
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Mã SP</th>
+                  <th>Ảnh</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Giá vốn</th>
+                  <th>Giá bán</th>
+                  <th>Tồn kho</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="products-table-body">
+                <tr><td colspan="8" class="text-center text-muted u-pad-30">Đang tải danh sách...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- MODAL THÊM / CHỈNH SỬA SẢN PHẨM -->
+<div id="product-modal" class="modal-backdrop">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-product-title">Thêm sản phẩm mới</h3>
+      <button type="button" class="modal-close" id="btn-close-product-modal">&times;</button>
+    </div>
+    <form id="product-form">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="product-code">Mã sản phẩm <span class="required">*</span></label>
+            <input type="text" id="product-code" class="form-control" placeholder="Ví dụ: SP015" required>
+            <div id="err-product-code" class="form-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="product-category">Danh mục <span class="required">*</span></label>
+            <select id="product-category" class="form-control" required>
+              <option value="">-- Chọn danh mục --</option>
+            </select>
+            <div id="err-product-category" class="form-error"></div>
+          </div>
+
+          <div class="form-group form-full">
+            <label class="form-label" for="product-name">Tên sản phẩm <span class="required">*</span></label>
+            <input type="text" id="product-name" class="form-control" placeholder="Nhập đầy đủ tên sản phẩm..." required>
+            <div id="err-product-name" class="form-error"></div>
+          </div>
+
+          <div class="form-group form-full">
+            <label class="form-label" for="product-image">Đường dẫn ảnh (lưu trong images/products/) <span class="required">*</span></label>
+            <input type="text" id="product-image" class="form-control" placeholder="images/products/..." required>
+            <small class="form-hint">Nhập đường dẫn tới file ảnh trong thư mục images/products/ (ví dụ: images/products/notebook.jpg).</small>
+            <div id="err-product-image" class="form-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="product-cost">Giá vốn nhập hàng (VNĐ) <span class="required">*</span></label>
+            <input type="number" id="product-cost" class="form-control" min="0" step="1000" placeholder="0" required>
+            <div id="err-product-cost" class="form-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="product-price">Giá bán lẻ (VNĐ) <span class="required">*</span></label>
+            <input type="number" id="product-price" class="form-control" min="1000" step="1000" placeholder="0" required>
+            <div id="err-product-price" class="form-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="product-stock">Số lượng tồn kho ban đầu <span class="required">*</span></label>
+            <input type="number" id="product-stock" class="form-control" min="0" step="1" value="0" required>
+            <div id="err-product-stock" class="form-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="product-unit">Đơn vị tính <span class="required">*</span></label>
+            <input type="text" id="product-unit" class="form-control" placeholder="Cuốn, Chiếc, Cây, Ram, Hộp..." required>
+            <div id="err-product-unit" class="form-error"></div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="product-supplier">Nhà cung cấp</label>
+            <input type="text" id="product-supplier" class="form-control" placeholder="Tên công ty hoặc đối tác cung cấp">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="product-status">Trạng thái kinh doanh</label>
+            <select id="product-status" class="form-control">
+              <option value="active">Đang kinh doanh (Active)</option>
+              <option value="inactive">Ngừng kinh doanh (Inactive)</option>
+            </select>
+          </div>
+
+          <div class="form-group form-full">
+            <label class="form-label" for="product-desc">Mô tả sản phẩm</label>
+            <textarea id="product-desc" class="form-control" rows="3" placeholder="Mô tả công dụng, thông số, chất liệu..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" id="btn-cancel-product-modal">Hủy bỏ</button>
+        <button type="submit" class="btn btn-primary">Lưu sản phẩm</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL XEM CHI TIẾT SẢN PHẨM -->
+<div id="product-detail-modal" class="modal-backdrop">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <h3 class="modal-title">Thông Tin Chi Tiết Sản Phẩm</h3>
+      <button type="button" class="modal-close" id="btn-close-product-detail">&times;</button>
+    </div>
+    <div class="modal-body" id="product-detail-content">
+      <!-- Nội dung render động qua JavaScript -->
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS DỰ ÁN -->
+<script src="js/storage.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script src="js/products.js"></script>
+</body>
+</html>

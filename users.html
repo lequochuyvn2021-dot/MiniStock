@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Tài Khoản &amp; Phân Quyền - MiniStock</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo/icon.svg">
+  <script src="js/theme.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="app-container">
+  <!-- SIDEBAR ĐIỀU HƯỚNG -->
+  <aside class="app-sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-brand">
+        <img src="images/logo/logo.svg" alt="MiniStock Logo">
+      </a>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li class="menu-category-title">TỔNG QUAN</li>
+      <li class="menu-item">
+        <a href="index.html" class="menu-link">
+          <span class="menu-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">BÁN HÀNG &amp; KHO</li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="sales.html" class="menu-link">
+          <span class="menu-icon">🛒</span>
+          <span>Bán hàng (POS)</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="orders.html" class="menu-link">
+          <span class="menu-icon">📑</span>
+          <span>Quản lý đơn hàng</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,warehouse">
+        <a href="inventory.html" class="menu-link">
+          <span class="menu-icon">📦</span>
+          <span>Quản lý kho</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">DANH MỤC &amp; SẢN PHẨM</li>
+      <li class="menu-item" data-role-allow="admin,staff,warehouse">
+        <a href="products.html" class="menu-link">
+          <span class="menu-icon">🏷️</span>
+          <span>Sản phẩm</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,warehouse">
+        <a href="categories.html" class="menu-link">
+          <span class="menu-icon">📂</span>
+          <span>Danh mục</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">ĐỐI TÁC &amp; KHÁCH HÀNG</li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="customers.html" class="menu-link">
+          <span class="menu-icon">👥</span>
+          <span>Khách hàng</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">BÁO CÁO &amp; HỆ THỐNG</li>
+      <li class="menu-item" data-role-allow="admin">
+        <a href="reports.html" class="menu-link">
+          <span class="menu-icon">📈</span>
+          <span>Báo cáo thống kê</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin">
+        <a href="users.html" class="menu-link active">
+          <span class="menu-icon">⚙️</span>
+          <span>Tài khoản &amp; Vai trò</span>
+        </a>
+      </li>
+      <li class="menu-category-title">THÔNG TIN</li>
+      <li class="menu-item">
+        <a href="about.html" class="menu-link">
+          <span class="menu-icon">ℹ️</span>
+          <span>Giới thiệu</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="contact.html" class="menu-link">
+          <span class="menu-icon">✉️</span>
+          <span>Liên hệ &amp; Góp ý</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div><strong>MiniStock</strong> v1.0</div>
+      <button type="button" id="btn-reset-demo" class="btn btn-outline btn-sm" title="Khôi phục dữ liệu mẫu gốc">🔄</button>
+    </div>
+  </aside>
+
+  <!-- NỘI DUNG CHÍNH -->
+  <div class="app-main">
+    <header class="app-header">
+      <div class="header-left">
+        <button type="button" id="btn-sidebar-toggle" class="btn-sidebar-toggle" aria-label="Mở menu">☰</button>
+        <div class="header-title-box">
+          <h1 id="header-page-title">Quản Lý Tài Khoản Demo</h1>
+          <p>Mô phỏng phân quyền người dùng theo vai trò trong cửa hàng</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button type="button" id="btn-export-backup" class="btn btn-outline btn-sm" title="Sao lưu JSON">💾<span class="btn-label"> Sao lưu</span></button>
+        <div class="header-user-profile">
+          <div class="user-avatar" id="header-user-avatar">👤</div>
+          <div class="user-info">
+            <span class="user-name" id="header-user-name">Đang tải...</span>
+            <span class="role-badge" id="header-user-role">...</span>
+          </div>
+        </div>
+        <button type="button" id="btn-logout" class="btn btn-outline btn-sm text-danger" title="Đăng xuất">🚪<span class="btn-label"> Đăng xuất</span></button>
+      </div>
+    </header>
+
+    <main class="app-content">
+      <!-- CẢNH BÁO BẢO MẬT HỌC TẬP -->
+      <div class="note-box note-warning">
+        <strong>⚠️ Lưu ý quan trọng cho đồ án sinh viên:</strong> Hệ thống phân quyền này chạy mô phỏng hoàn toàn ở <strong>phía Frontend và lưu trong LocalStorage</strong> nhằm minh họa luồng nghiệp vụ.
+        Trong ứng dụng thực tế trên môi trường sản xuất, bắt buộc phải có máy chủ Backend (Node.js/PHP/Java/C#), cơ sở dữ liệu (MySQL/PostgreSQL) và mã hóa mật khẩu bằng bcrypt kết hợp JSON Web Token (JWT) để đảm bảo an toàn tuyệt đối.
+      </div>
+
+      <!-- BẢNG DANH SÁCH TÀI KHOẢN -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>Danh sách tài khoản hệ thống</span>
+          </div>
+          <button type="button" id="btn-add-user" class="btn btn-primary">
+            ➕ Thêm tài khoản mới
+          </button>
+        </div>
+
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th class="u-w-50">Avatar</th>
+                  <th>Họ và tên</th>
+                  <th>Tên đăng nhập</th>
+                  <th>Vai trò</th>
+                  <th>Trạng thái</th>
+                  <th>Ngày tạo</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="users-table-body">
+                <tr><td colspan="7" class="text-center text-muted u-pad-30">Đang tải danh sách tài khoản...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- MA TRẬN PHÂN QUYỀN HỆ THỐNG -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">📋 Ma trận phân quyền chi tiết (Role-Based Access Matrix)</h2>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Chức năng nghiệp vụ</th>
+                  <th class="text-center">Quản trị viên (Admin)</th>
+                  <th class="text-center">Nhân viên Bán hàng (Staff)</th>
+                  <th class="text-center">Thủ kho (Warehouse)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Xem Dashboard tổng quan</td>
+                  <td class="text-center text-success font-bold">✓ Toàn quyền</td>
+                  <td class="text-center text-success font-bold">✓ Xem số liệu</td>
+                  <td class="text-center text-success font-bold">✓ Xem số liệu</td>
+                </tr>
+                <tr>
+                  <td>Xem danh sách sản phẩm</td>
+                  <td class="text-center text-success font-bold">✓ Toàn quyền</td>
+                  <td class="text-center text-info font-bold">✓ Chỉ xem</td>
+                  <td class="text-center text-success font-bold">✓ Toàn quyền</td>
+                </tr>
+                <tr>
+                  <td>Thêm, sửa, xóa sản phẩm &amp; danh mục</td>
+                  <td class="text-center text-success font-bold">✓ Có quyền</td>
+                  <td class="text-center text-danger font-bold">✕ Không được phép</td>
+                  <td class="text-center text-success font-bold">✓ Có quyền</td>
+                </tr>
+                <tr>
+                  <td>Quầy bán hàng POS &amp; Tạo hóa đơn</td>
+                  <td class="text-center text-success font-bold">✓ Có quyền</td>
+                  <td class="text-center text-success font-bold">✓ Có quyền</td>
+                  <td class="text-center text-danger font-bold">✕ Không được phép</td>
+                </tr>
+                <tr>
+                  <td>Quản lý đơn hàng &amp; Hủy đơn hoàn kho</td>
+                  <td class="text-center text-success font-bold">✓ Có quyền</td>
+                  <td class="text-center text-success font-bold">✓ Có quyền</td>
+                  <td class="text-center text-danger font-bold">✕ Không được phép</td>
+                </tr>
+                <tr>
+                  <td>Nhập kho, Xuất kho &amp; Điều chỉnh kiểm kê</td>
+                  <td class="text-center text-success font-bold">✓ Có quyền</td>
+                  <td class="text-center text-danger font-bold">✕ Không được phép</td>
+                  <td class="text-center text-success font-bold">✓ Có quyền</td>
+                </tr>
+                <tr>
+                  <td>Xem Báo cáo tài chính &amp; Lợi nhuận gộp</td>
+                  <td class="text-center text-success font-bold">✓ Có quyền</td>
+                  <td class="text-center text-danger font-bold">✕ Bị khóa</td>
+                  <td class="text-center text-danger font-bold">✕ Bị khóa</td>
+                </tr>
+                <tr>
+                  <td>Quản lý tài khoản &amp; Phân quyền người dùng</td>
+                  <td class="text-center text-success font-bold">✓ Có quyền</td>
+                  <td class="text-center text-danger font-bold">✕ Bị khóa</td>
+                  <td class="text-center text-danger font-bold">✕ Bị khóa</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- MODAL THÊM / SỬA TÀI KHOẢN -->
+<div id="user-modal" class="modal-backdrop">
+  <div class="modal-box modal-md">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-user-title">Thêm tài khoản mới</h3>
+      <button type="button" class="modal-close" id="btn-close-user-modal">&times;</button>
+    </div>
+    <form id="user-form">
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="user-username">Tên đăng nhập <span class="required">*</span></label>
+            <input type="text" id="user-username" class="form-control" placeholder="vidu: thu_kho_01" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="user-role">Vai trò (Role) <span class="required">*</span></label>
+            <select id="user-role" class="form-control" required>
+              <option value="admin">Quản trị viên (Admin)</option>
+              <option value="staff">Nhân viên Bán hàng (Staff)</option>
+              <option value="warehouse">Thủ kho (Warehouse)</option>
+            </select>
+          </div>
+
+          <div class="form-group form-full">
+            <label class="form-label" for="user-fullname">Họ và tên hiển thị <span class="required">*</span></label>
+            <input type="text" id="user-fullname" class="form-control" placeholder="Nguyễn Văn A" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="user-password">Mật khẩu <span class="required">*</span></label>
+            <input type="password" id="user-password" class="form-control" placeholder="Mật khẩu">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="user-avatar-select">Biểu tượng Avatar</label>
+            <select id="user-avatar-select" class="form-control">
+              <option value="👨‍💼">👨‍💼 Nam công sở</option>
+              <option value="👩‍💼">👩‍💼 Nữ công sở</option>
+              <option value="👷‍♂️">👷‍♂️ Kỹ thuật / Kho</option>
+              <option value="🧑‍💻">🧑‍💻 Lập trình viên</option>
+              <option value="👤">👤 Người dùng mặc định</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" id="btn-cancel-user-modal">Hủy</button>
+        <button type="submit" class="btn btn-primary">Lưu tài khoản</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- SCRIPTS DỰ ÁN -->
+<script src="js/storage.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script src="js/users.js"></script>
+</body>
+</html>

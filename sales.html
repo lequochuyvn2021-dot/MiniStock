@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bán Hàng (POS) &amp; Lập Hóa Đơn - MiniStock</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo/icon.svg">
+  <script src="js/theme.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="app-container">
+  <!-- SIDEBAR ĐIỀU HƯỚNG -->
+  <aside class="app-sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-brand">
+        <img src="images/logo/logo.svg" alt="MiniStock Logo">
+      </a>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li class="menu-category-title">TỔNG QUAN</li>
+      <li class="menu-item">
+        <a href="index.html" class="menu-link">
+          <span class="menu-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">BÁN HÀNG &amp; KHO</li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="sales.html" class="menu-link active">
+          <span class="menu-icon">🛒</span>
+          <span>Bán hàng (POS)</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="orders.html" class="menu-link">
+          <span class="menu-icon">📑</span>
+          <span>Quản lý đơn hàng</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,warehouse">
+        <a href="inventory.html" class="menu-link">
+          <span class="menu-icon">📦</span>
+          <span>Quản lý kho</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">DANH MỤC &amp; SẢN PHẨM</li>
+      <li class="menu-item" data-role-allow="admin,staff,warehouse">
+        <a href="products.html" class="menu-link">
+          <span class="menu-icon">🏷️</span>
+          <span>Sản phẩm</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,warehouse">
+        <a href="categories.html" class="menu-link">
+          <span class="menu-icon">📂</span>
+          <span>Danh mục</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">ĐỐI TÁC &amp; KHÁCH HÀNG</li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="customers.html" class="menu-link">
+          <span class="menu-icon">👥</span>
+          <span>Khách hàng</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">BÁO CÁO &amp; HỆ THỐNG</li>
+      <li class="menu-item" data-role-allow="admin">
+        <a href="reports.html" class="menu-link">
+          <span class="menu-icon">📈</span>
+          <span>Báo cáo thống kê</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin">
+        <a href="users.html" class="menu-link">
+          <span class="menu-icon">⚙️</span>
+          <span>Tài khoản &amp; Vai trò</span>
+        </a>
+      </li>
+      <li class="menu-category-title">THÔNG TIN</li>
+      <li class="menu-item">
+        <a href="about.html" class="menu-link">
+          <span class="menu-icon">ℹ️</span>
+          <span>Giới thiệu</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="contact.html" class="menu-link">
+          <span class="menu-icon">✉️</span>
+          <span>Liên hệ &amp; Góp ý</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div><strong>MiniStock</strong> v1.0</div>
+      <button type="button" id="btn-reset-demo" class="btn btn-outline btn-sm" title="Khôi phục dữ liệu mẫu gốc">🔄</button>
+    </div>
+  </aside>
+
+  <!-- NỘI DUNG CHÍNH -->
+  <div class="app-main">
+    <header class="app-header">
+      <div class="header-left">
+        <button type="button" id="btn-sidebar-toggle" class="btn-sidebar-toggle" aria-label="Mở menu">☰</button>
+        <div class="header-title-box">
+          <h1 id="header-page-title">Quầy Bán Hàng (POS)</h1>
+          <p>Chọn mặt hàng, lập hóa đơn, trừ tồn kho tự động và in phiếu thu</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button type="button" id="btn-export-backup" class="btn btn-outline btn-sm" title="Sao lưu JSON">💾<span class="btn-label"> Sao lưu</span></button>
+        <div class="header-user-profile">
+          <div class="user-avatar" id="header-user-avatar">👤</div>
+          <div class="user-info">
+            <span class="user-name" id="header-user-name">Đang tải...</span>
+            <span class="role-badge" id="header-user-role">...</span>
+          </div>
+        </div>
+        <button type="button" id="btn-logout" class="btn btn-outline btn-sm text-danger" title="Đăng xuất">🚪<span class="btn-label"> Đăng xuất</span></button>
+      </div>
+    </header>
+
+    <main class="app-content">
+      <!-- BỐ CỤC CHIA ĐÔI: BÊN TRÁI LÀ CATALOG CHỌN MÓN, BÊN PHẢI LÀ GIỎ HÀNG & THANH TOÁN -->
+      <div class="pos-layout">
+        <!-- CỘT TRÁI: DANH MỤC & LƯỚI SẢN PHẨM -->
+        <div class="pos-catalog">
+          <div class="toolbar-bar u-mb-12">
+            <div class="search-box u-w-100">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="pos-search" placeholder="Gõ tên hoặc mã sản phẩm để tìm nhanh...">
+            </div>
+          </div>
+
+          <!-- NÚT CHỌN DANH MỤC DẠNG PILL -->
+          <div class="category-pills" id="category-pills">
+            <!-- Render động bằng js/sales.js -->
+          </div>
+
+          <!-- LƯỚI SẢN PHẨM CÓ ẢNH THẬT -->
+          <div class="pos-products-grid" id="pos-products-grid">
+            <!-- Render động bằng js/sales.js -->
+          </div>
+        </div>
+
+        <!-- CỘT PHẢI: GIỎ HÀNG & THANH TOÁN -->
+        <div class="pos-cart">
+          <div class="pos-cart-header">
+            <h2 class="cart-title">
+              <span>🛒</span> Hóa đơn hiện tại (<span id="cart-item-count">0 món</span>)
+            </h2>
+            <button type="button" id="btn-clear-cart" class="btn btn-outline btn-sm text-danger" title="Làm sạch giỏ">
+              Xóa sạch
+            </button>
+          </div>
+
+          <!-- DANH SÁCH MÓN ĐÃ CHỌN -->
+          <div class="pos-cart-items" id="pos-cart-items">
+            <!-- Render động các dòng món hàng -->
+          </div>
+
+          <!-- TỔNG TIỀN VÀ THÔNG TIN THANH TOÁN -->
+          <div class="pos-cart-summary">
+            <!-- CHỌN KHÁCH HÀNG -->
+            <div class="u-mb-10">
+              <div class="cart-label-row">
+                <label class="cart-label" for="cart-customer-select">Khách hàng:</label>
+                <button type="button" id="btn-quick-add-customer" class="btn btn-outline btn-sm btn-xs">
+                  + Khách mới
+                </button>
+              </div>
+              <select id="cart-customer-select" class="form-control form-control-sm">
+                <option value="guest">Khách mua lẻ tại quầy</option>
+              </select>
+            </div>
+
+            <!-- PHƯƠNG THỨC THANH TOÁN -->
+            <div class="u-mb-10">
+              <label class="cart-label cart-label-block" for="cart-payment-method">Phương thức thanh toán:</label>
+              <select id="cart-payment-method" class="form-control form-control-sm">
+                <option value="cash">💵 Tiền mặt</option>
+                <option value="transfer">📱 Chuyển khoản QR ngân hàng</option>
+                <option value="card">💳 Thẻ ngân hàng / POS</option>
+              </select>
+            </div>
+
+            <!-- GHI CHÚ ĐƠN -->
+            <div class="u-mb-12">
+              <input type="text" id="cart-note" class="form-control form-control-sm" placeholder="Ghi chú đơn hàng (nếu có)...">
+            </div>
+
+            <div class="summary-row">
+              <span class="text-muted">Tổng tiền hàng:</span>
+              <span id="cart-subtotal" class="font-bold">0 đ</span>
+            </div>
+
+            <div class="summary-row">
+              <span class="text-muted">Giảm giá (VNĐ):</span>
+              <input type="number" id="cart-discount" class="form-control cart-discount-input" value="0" min="0" step="1000">
+            </div>
+
+            <div class="summary-row summary-total">
+              <span>KHÁCH CẦN TRẢ:</span>
+              <span id="cart-total">0 đ</span>
+            </div>
+
+            <button type="button" id="btn-checkout" class="btn btn-primary btn-checkout-full">
+              ✅ HOÀN TẤT &amp; IN HÓA ĐƠN
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- MODAL XEM TRƯỚC VÀ IN HÓA ĐƠN BÁN LẺ -->
+<div id="invoice-modal" class="modal-backdrop">
+  <div class="modal-box modal-md">
+    <div class="modal-header">
+      <h3 class="modal-title">Hóa Đơn Bán Lẻ MiniStock</h3>
+      <button type="button" class="modal-close" id="btn-close-invoice">&times;</button>
+    </div>
+    <div class="modal-body" id="invoice-paper-content">
+      <!-- Render qua JavaScript -->
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" id="btn-close-invoice-footer" data-close-modal="invoice-modal">Đóng</button>
+      <button type="button" class="btn btn-primary" id="btn-print-invoice">
+        🖨️ In hóa đơn (Print)
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS DỰ ÁN -->
+<script src="js/storage.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script src="js/sales.js"></script>
+</body>
+</html>

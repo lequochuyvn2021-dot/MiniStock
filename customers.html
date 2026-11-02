@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Khách Hàng - MiniStock</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo/icon.svg">
+  <script src="js/theme.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="app-container">
+  <!-- SIDEBAR ĐIỀU HƯỚNG -->
+  <aside class="app-sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-brand">
+        <img src="images/logo/logo.svg" alt="MiniStock Logo">
+      </a>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li class="menu-category-title">TỔNG QUAN</li>
+      <li class="menu-item">
+        <a href="index.html" class="menu-link">
+          <span class="menu-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">BÁN HÀNG &amp; KHO</li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="sales.html" class="menu-link">
+          <span class="menu-icon">🛒</span>
+          <span>Bán hàng (POS)</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="orders.html" class="menu-link">
+          <span class="menu-icon">📑</span>
+          <span>Quản lý đơn hàng</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,warehouse">
+        <a href="inventory.html" class="menu-link">
+          <span class="menu-icon">📦</span>
+          <span>Quản lý kho</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">DANH MỤC &amp; SẢN PHẨM</li>
+      <li class="menu-item" data-role-allow="admin,staff,warehouse">
+        <a href="products.html" class="menu-link">
+          <span class="menu-icon">🏷️</span>
+          <span>Sản phẩm</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,warehouse">
+        <a href="categories.html" class="menu-link">
+          <span class="menu-icon">📂</span>
+          <span>Danh mục</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">ĐỐI TÁC &amp; KHÁCH HÀNG</li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="customers.html" class="menu-link active">
+          <span class="menu-icon">👥</span>
+          <span>Khách hàng</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">BÁO CÁO &amp; HỆ THỐNG</li>
+      <li class="menu-item" data-role-allow="admin">
+        <a href="reports.html" class="menu-link">
+          <span class="menu-icon">📈</span>
+          <span>Báo cáo thống kê</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin">
+        <a href="users.html" class="menu-link">
+          <span class="menu-icon">⚙️</span>
+          <span>Tài khoản &amp; Vai trò</span>
+        </a>
+      </li>
+      <li class="menu-category-title">THÔNG TIN</li>
+      <li class="menu-item">
+        <a href="about.html" class="menu-link">
+          <span class="menu-icon">ℹ️</span>
+          <span>Giới thiệu</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="contact.html" class="menu-link">
+          <span class="menu-icon">✉️</span>
+          <span>Liên hệ &amp; Góp ý</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div><strong>MiniStock</strong> v1.0</div>
+      <button type="button" id="btn-reset-demo" class="btn btn-outline btn-sm" title="Khôi phục dữ liệu mẫu gốc">🔄</button>
+    </div>
+  </aside>
+
+  <!-- NỘI DUNG CHÍNH -->
+  <div class="app-main">
+    <header class="app-header">
+      <div class="header-left">
+        <button type="button" id="btn-sidebar-toggle" class="btn-sidebar-toggle" aria-label="Mở menu">☰</button>
+        <div class="header-title-box">
+          <h1 id="header-page-title">Quản Lý Khách Hàng</h1>
+          <p>Hồ sơ người mua, thông tin liên hệ và tích lũy chi tiêu thực tế</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button type="button" id="btn-export-backup" class="btn btn-outline btn-sm" title="Sao lưu JSON">💾<span class="btn-label"> Sao lưu</span></button>
+        <div class="header-user-profile">
+          <div class="user-avatar" id="header-user-avatar">👤</div>
+          <div class="user-info">
+            <span class="user-name" id="header-user-name">Đang tải...</span>
+            <span class="role-badge" id="header-user-role">...</span>
+          </div>
+        </div>
+        <button type="button" id="btn-logout" class="btn btn-outline btn-sm text-danger" title="Đăng xuất">🚪<span class="btn-label"> Đăng xuất</span></button>
+      </div>
+    </header>
+
+    <main class="app-content">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span>Danh sách khách hàng</span>
+            <span class="badge badge-secondary" id="customers-count-badge">0 khách hàng</span>
+          </div>
+          <button type="button" id="btn-add-customer" class="btn btn-primary">
+            ➕ Thêm khách hàng mới
+          </button>
+        </div>
+
+        <div class="card-body">
+          <div class="toolbar-bar">
+            <div class="toolbar-left">
+              <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="customers-search" placeholder="Tìm theo tên, SĐT hoặc mã khách...">
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Mã KH</th>
+                  <th>Họ và tên</th>
+                  <th>Số điện thoại</th>
+                  <th>Email</th>
+                  <th>Nhóm khách</th>
+                  <th>Số đơn mua</th>
+                  <th>Tổng chi tiêu</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="customers-table-body">
+                <tr><td colspan="8" class="text-center text-muted u-pad-30">Đang tải dữ liệu...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============================================================
+     FORM 1: BIỂU MẪU NHẬP LIỆU CHÍNH (TIÊU CHÍ BẮT BUỘC MÔN HỌC)
+     Có hơn 8 loại input khác nhau: text, tel, email, number, date, radio, checkbox, select, textarea
+     Mỗi trường đều có <label> gắn với id input qua thuộc tính for, hiển thị lỗi đỏ ngay dưới ô
+     ============================================================ -->
+<div id="customer-modal" class="modal-backdrop">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-customer-title">Thêm khách hàng mới</h3>
+      <button type="button" class="modal-close" id="btn-close-customer-modal">&times;</button>
+    </div>
+    <form id="customer-form" novalidate>
+      <div class="modal-body">
+        <div class="form-grid">
+          <!-- 1. Input type="text" -->
+          <div class="form-group">
+            <label class="form-label" for="customer-code">Mã khách hàng <span class="required">*</span></label>
+            <input type="text" id="customer-code" name="customerCode" class="form-control" placeholder="Ví dụ: KH006" required>
+            <div id="err-customer-code" class="form-error"></div>
+          </div>
+
+          <!-- 2. Input type="tel" -->
+          <div class="form-group">
+            <label class="form-label" for="customer-phone">Số điện thoại liên hệ <span class="required">*</span></label>
+            <input type="tel" id="customer-phone" name="customerPhone" class="form-control" placeholder="10 chữ số (ví dụ: 0912345678)" required>
+            <div id="err-customer-phone" class="form-error"></div>
+          </div>
+
+          <!-- 3. Input type="text" -->
+          <div class="form-group form-full">
+            <label class="form-label" for="customer-name">Họ và tên khách hàng <span class="required">*</span></label>
+            <input type="text" id="customer-name" name="customerName" class="form-control" placeholder="Nhập đầy đủ họ và tên..." required>
+            <div id="err-customer-name" class="form-error"></div>
+          </div>
+
+          <!-- 4. Input type="email" -->
+          <div class="form-group">
+            <label class="form-label" for="customer-email">Địa chỉ Email</label>
+            <input type="email" id="customer-email" name="customerEmail" class="form-control" placeholder="vidu@gmail.com">
+            <div id="err-customer-email" class="form-error"></div>
+          </div>
+
+          <!-- 5. Input type="date" -->
+          <div class="form-group">
+            <label class="form-label" for="customer-birthday">Ngày sinh (để tặng ưu đãi sinh nhật)</label>
+            <input type="date" id="customer-birthday" name="customerBirthday" class="form-control">
+            <div id="err-customer-birthday" class="form-error"></div>
+          </div>
+
+          <!-- 6. Input type="number" -->
+          <div class="form-group">
+            <label class="form-label" for="customer-points">Điểm tích lũy ban đầu</label>
+            <input type="number" id="customer-points" name="customerPoints" class="form-control" min="0" value="0" step="10">
+            <div id="err-customer-points" class="form-error"></div>
+          </div>
+
+          <!-- 7. Input type="select" -->
+          <div class="form-group">
+            <label class="form-label" for="customer-province">Tỉnh / Thành phố sinh sống <span class="required">*</span></label>
+            <select id="customer-province" name="customerProvince" class="form-control" required>
+              <option value="">-- Chọn Tỉnh / Thành phố --</option>
+              <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
+              <option value="Hà Nội">Hà Nội</option>
+              <option value="Đà Nẵng">Đà Nẵng</option>
+              <option value="Cần Thơ">Cần Thơ</option>
+              <option value="Hải Phòng">Hải Phòng</option>
+              <option value="Bình Dương">Bình Dương</option>
+              <option value="Đồng Nai">Đồng Nai</option>
+              <option value="Khác">Tỉnh thành khác</option>
+            </select>
+            <div id="err-customer-province" class="form-error"></div>
+          </div>
+
+          <!-- 8. Input type="radio" -->
+          <div class="form-group form-full">
+            <label class="form-label">Phân loại nhóm khách hàng <span class="required">*</span></label>
+            <div class="radio-group">
+              <label class="radio-item" for="cust-type-retail">
+                <input type="radio" id="cust-type-retail" name="customerType" value="retail" checked>
+                <span>Khách mua lẻ thông thường</span>
+              </label>
+              <label class="radio-item" for="cust-type-wholesale">
+                <input type="radio" id="cust-type-wholesale" name="customerType" value="wholesale">
+                <span>Khách mua buôn / Sỉ</span>
+              </label>
+              <label class="radio-item" for="cust-type-vip">
+                <input type="radio" id="cust-type-vip" name="customerType" value="vip">
+                <span>Khách VIP (Doanh nghiệp)</span>
+              </label>
+            </div>
+            <div id="err-customer-type" class="form-error"></div>
+          </div>
+
+          <!-- 9. Input type="textarea" -->
+          <div class="form-group form-full">
+            <label class="form-label" for="customer-address">Địa chỉ chi tiết</label>
+            <textarea id="customer-address" name="customerAddress" class="form-control" rows="2" placeholder="Số nhà, tên đường, phường/xã..."></textarea>
+            <div id="err-customer-address" class="form-error"></div>
+          </div>
+
+          <!-- 10. Input type="checkbox" -->
+          <div class="form-group form-full">
+            <label class="form-label">Tùy chọn dịch vụ và chăm sóc</label>
+            <div class="checkbox-group">
+              <label class="checkbox-item" for="cust-opt-invoice">
+                <input type="checkbox" id="cust-opt-invoice" name="optInvoice">
+                <span>Tự động xuất hóa đơn điện tử VAT</span>
+              </label>
+              <label class="checkbox-item" for="cust-opt-sms">
+                <input type="checkbox" id="cust-opt-sms" name="optSms" checked>
+                <span>Nhận thông báo khuyến mãi qua tin nhắn</span>
+              </label>
+              <label class="checkbox-item" for="cust-opt-terms">
+                <input type="checkbox" id="cust-opt-terms" name="optTerms" checked>
+                <span>Đồng ý với điều khoản thành viên MiniStock <span class="required">*</span></span>
+              </label>
+            </div>
+            <div id="err-customer-terms" class="form-error"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" id="btn-cancel-customer-modal">Hủy bỏ</button>
+        <button type="submit" class="btn btn-primary">💾 Lưu khách hàng</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL LỊCH SỬ MUA HÀNG -->
+<div id="customer-history-modal" class="modal-backdrop">
+  <div class="modal-box modal-lg">
+    <div class="modal-header">
+      <h3 class="modal-title">Lịch Sử Mua Hàng Của Khách</h3>
+      <button type="button" class="modal-close" id="btn-close-customer-history">&times;</button>
+    </div>
+    <div class="modal-body" id="customer-history-content">
+      <!-- Render qua JavaScript -->
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="customer-history-modal">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS DỰ ÁN -->
+<script src="js/storage.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script src="js/customers.js"></script>
+</body>
+</html>

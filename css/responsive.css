@@ -1,0 +1,211 @@
+/**
+ * MiniStock - Bảng Kiểu Responsive Cho Mọi Thiết Bị
+ * File: css/responsive.css
+ */
+
+/* Lớp phủ mờ khi mở Sidebar trên mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.6);
+  z-index: 99;
+  backdrop-filter: blur(2px);
+  transition: opacity 0.3s;
+}
+
+.sidebar-overlay.active {
+  display: block;
+}
+
+/* ============================================================
+   MÀN HÌNH LAPTOP NHỎ & TABLET (DƯỚI 1024PX)
+   ============================================================ */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 240px;
+  }
+
+  .pos-layout {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 16px;
+  }
+
+  .grid-2-1 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Đồng hồ chiếm chỗ nên ẩn bớt ở màn hình nhỏ */
+  .header-clock-greet {
+    display: none;
+  }
+}
+
+/* ============================================================
+   MÀN HÌNH TABLET & DI ĐỘNG (DƯỚI 768PX)
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Ẩn sidebar mặc định sang trái */
+  .app-sidebar {
+    transform: translateX(-100%);
+  }
+
+  /* Khi sidebar được mở */
+  .app-sidebar.show {
+    transform: translateX(0);
+  }
+
+  /* Khu vực nội dung chiếm 100% màn hình */
+  .app-main {
+    margin-left: 0;
+  }
+
+  /* Hiện nút toggle mở sidebar */
+  .btn-sidebar-toggle {
+    display: inline-flex;
+  }
+
+  .app-header {
+    padding: 0 16px;
+  }
+
+  .header-user-profile .user-info {
+    display: none; /* Chỉ hiện avatar trên mobile để tiết kiệm diện tích */
+  }
+
+  /* Header gọn lại: ẩn dòng mô tả, nút chỉ còn icon, ẩn đồng hồ */
+  .header-title-box p,
+  .btn-label,
+  .header-clock {
+    display: none;
+  }
+
+  .header-left {
+    gap: 8px;
+  }
+
+  .header-right {
+    gap: 8px;
+  }
+
+  .header-user-profile {
+    padding: 4px;
+  }
+
+  /* Tiêu đề thẻ + cụm nút: cho xuống dòng thay vì tràn ngang */
+  .card-header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .card-header .d-flex,
+  .action-buttons {
+    flex-wrap: wrap;
+  }
+
+  .app-content {
+    padding: 16px;
+  }
+
+  /* Thống kê chuyển thành 1-2 cột */
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Giao diện bán hàng POS trên mobile chuyển sang xếp dọc */
+  .pos-layout,
+  .grid-2-1,
+  .grid-1-1,
+  .contact-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pos-cart {
+    position: static;
+    margin-top: 20px;
+  }
+
+  /* Thanh công cụ tìm kiếm xếp dọc */
+  .toolbar-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .toolbar-left, .toolbar-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .search-box {
+    width: 100%;
+    min-width: unset;
+  }
+
+  /* Biểu mẫu 1 cột */
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-full {
+    grid-column: span 1;
+  }
+
+  .modal-box {
+    max-width: 95vw;
+    margin: 10px;
+  }
+
+  /* Nút bấm to hơn, dễ bấm chạm bằng ngón tay */
+  .btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  /* Bảng dữ liệu có khoảng đệm nhỏ hơn */
+  .data-table th, .data-table td {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+}
+
+/* ============================================================
+   MÀN HÌNH ĐIỆN THOẠI NHỎ (DƯỚI 480PX)
+   ============================================================ */
+@media (max-width: 480px) {
+  .header-title-box h1 {
+    font-size: 17px;
+  }
+
+  .pos-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .pos-product-img {
+    height: 105px;
+  }
+
+  .toast-container {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .toast-item {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .modal-footer .btn {
+    width: 100%;
+  }
+}

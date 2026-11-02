@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liên hệ & Góp ý - MiniStock</title>
+  <link rel="icon" type="image/svg+xml" href="images/logo/icon.svg">
+  <script src="js/theme.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div class="app-container">
+  <!-- SIDEBAR ĐIỀU HƯỚNG -->
+  <aside class="app-sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-brand">
+        <img src="images/logo/logo.svg" alt="MiniStock Logo">
+      </a>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li class="menu-category-title">TỔNG QUAN</li>
+      <li class="menu-item">
+        <a href="index.html" class="menu-link">
+          <span class="menu-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">BÁN HÀNG &amp; KHO</li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="sales.html" class="menu-link">
+          <span class="menu-icon">🛒</span>
+          <span>Bán hàng (POS)</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="orders.html" class="menu-link">
+          <span class="menu-icon">📑</span>
+          <span>Quản lý đơn hàng</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,warehouse">
+        <a href="inventory.html" class="menu-link">
+          <span class="menu-icon">📦</span>
+          <span>Quản lý kho</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">DANH MỤC &amp; SẢN PHẨM</li>
+      <li class="menu-item" data-role-allow="admin,staff,warehouse">
+        <a href="products.html" class="menu-link">
+          <span class="menu-icon">🏷️</span>
+          <span>Sản phẩm</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin,warehouse">
+        <a href="categories.html" class="menu-link">
+          <span class="menu-icon">📂</span>
+          <span>Danh mục</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">ĐỐI TÁC &amp; KHÁCH HÀNG</li>
+      <li class="menu-item" data-role-allow="admin,staff">
+        <a href="customers.html" class="menu-link">
+          <span class="menu-icon">👥</span>
+          <span>Khách hàng</span>
+        </a>
+      </li>
+
+      <li class="menu-category-title">BÁO CÁO &amp; HỆ THỐNG</li>
+      <li class="menu-item" data-role-allow="admin">
+        <a href="reports.html" class="menu-link">
+          <span class="menu-icon">📈</span>
+          <span>Báo cáo thống kê</span>
+        </a>
+      </li>
+      <li class="menu-item" data-role-allow="admin">
+        <a href="users.html" class="menu-link">
+          <span class="menu-icon">⚙️</span>
+          <span>Tài khoản &amp; Vai trò</span>
+        </a>
+      </li>
+      <li class="menu-category-title">THÔNG TIN</li>
+      <li class="menu-item">
+        <a href="about.html" class="menu-link">
+          <span class="menu-icon">ℹ️</span>
+          <span>Giới thiệu</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="contact.html" class="menu-link">
+          <span class="menu-icon">✉️</span>
+          <span>Liên hệ &amp; Góp ý</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div>
+        <strong>MiniStock</strong> v1.0<br>
+        <small>Đồ án Sinh viên CNTT</small>
+      </div>
+      <button type="button" id="btn-reset-demo" class="btn btn-outline btn-sm" title="Khôi phục dữ liệu mẫu gốc">
+        🔄
+      </button>
+    </div>
+  </aside>
+
+  <!-- NỘI DUNG CHÍNH -->
+  <div class="app-main">
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="header-left">
+        <button type="button" id="btn-sidebar-toggle" class="btn-sidebar-toggle" aria-label="Mở menu">
+          ☰
+        </button>
+        <div class="header-title-box">
+          <h1 id="header-page-title">Liên hệ &amp; Góp ý</h1>
+          <p>Gửi góp ý, báo lỗi hoặc câu hỏi cho cửa hàng</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Nút xuất sao lưu JSON nhanh -->
+        <button type="button" id="btn-export-backup" class="btn btn-outline btn-sm" title="Xuất sao lưu toàn bộ dữ liệu">
+          💾<span class="btn-label"> Sao lưu</span>
+        </button>
+
+        <!-- Thông tin người dùng đang đăng nhập -->
+        <div class="header-user-profile">
+          <div class="user-avatar" id="header-user-avatar">👤</div>
+          <div class="user-info">
+            <span class="user-name" id="header-user-name">Đang tải...</span>
+            <span class="role-badge" id="header-user-role">...</span>
+          </div>
+        </div>
+
+        <button type="button" id="btn-logout" class="btn btn-outline btn-sm text-danger" title="Đăng xuất">
+          🚪<span class="btn-label"> Đăng xuất</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN BODY CONTENT -->
+    <main class="app-content">
+      <div class="contact-layout">
+        <section class="card">
+          <div class="card-header"><div class="card-title"><span>Gửi liên hệ / góp ý</span></div></div>
+          <div class="card-body">
+            <div id="contact-success" class="form-success hidden"></div>
+
+            <!-- FORM 3: FORM LIÊN HỆ (có validation bằng JavaScript) -->
+            <form id="contact-form" novalidate>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="contact-name">Họ và tên <span class="required">*</span></label>
+                  <input type="text" id="contact-name" name="contactName" class="form-control" placeholder="Nhập họ và tên">
+                  <div id="err-contact-name" class="form-error"></div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="contact-phone">Số điện thoại <span class="required">*</span></label>
+                  <input type="tel" id="contact-phone" name="contactPhone" class="form-control" placeholder="10 chữ số, bắt đầu bằng 0">
+                  <div id="err-contact-phone" class="form-error"></div>
+                </div>
+
+                <div class="form-group form-full">
+                  <label class="form-label" for="contact-email">Email <span class="required">*</span></label>
+                  <input type="email" id="contact-email" name="contactEmail" class="form-control" placeholder="ten@gmail.com">
+                  <div id="err-contact-email" class="form-error"></div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="contact-subject">Chủ đề <span class="required">*</span></label>
+                  <select id="contact-subject" name="contactSubject" class="form-control">
+                    <option value="">-- Chọn chủ đề --</option>
+                    <option value="Góp ý giao diện">Góp ý giao diện</option>
+                    <option value="Báo lỗi">Báo lỗi</option>
+                    <option value="Hỏi về sản phẩm">Hỏi về sản phẩm</option>
+                    <option value="Khác">Khác</option>
+                  </select>
+                  <div id="err-contact-subject" class="form-error"></div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="contact-date">Ngày muốn được phản hồi</label>
+                  <input type="date" id="contact-date" name="contactDate" class="form-control">
+                  <div id="err-contact-date" class="form-error"></div>
+                </div>
+
+                <div class="form-group form-full">
+                  <span class="form-label">Mức độ ưu tiên</span>
+                  <div class="radio-group">
+                    <label class="radio-item" for="contact-pri-normal">
+                      <input type="radio" id="contact-pri-normal" name="contactPriority" value="Bình thường" checked>
+                      <span>Bình thường</span>
+                    </label>
+                    <label class="radio-item" for="contact-pri-urgent">
+                      <input type="radio" id="contact-pri-urgent" name="contactPriority" value="Gấp">
+                      <span>Cần xử lý gấp</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form-group form-full">
+                  <label class="form-label" for="contact-message">Nội dung <span class="required">*</span></label>
+                  <textarea id="contact-message" name="contactMessage" class="form-control" rows="5" placeholder="Nhập nội dung (từ 10 đến 500 ký tự)"></textarea>
+                  <div class="char-count"><span id="contact-char-count">0</span>/500 ký tự</div>
+                  <div id="err-contact-message" class="form-error"></div>
+                </div>
+
+                <div class="form-group form-full">
+                  <label class="checkbox-item" for="contact-agree">
+                    <input type="checkbox" id="contact-agree" name="contactAgree">
+                    <span>Tôi đồng ý để cửa hàng liên hệ lại qua thông tin trên <span class="required">*</span></span>
+                  </label>
+                  <div id="err-contact-agree" class="form-error"></div>
+                </div>
+              </div>
+
+              <div class="d-flex gap-10">
+                <button type="submit" class="btn btn-primary">📨 Gửi liên hệ</button>
+                <button type="reset" class="btn btn-outline" id="btn-contact-reset">Nhập lại</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <div>
+          <section class="card contact-info">
+            <div class="card-header"><div class="card-title"><span>Thông tin cửa hàng</span></div></div>
+            <div class="card-body">
+              <p>📍 <span id="info-address">...</span></p>
+              <p>📞 <span id="info-phone">...</span></p>
+              <p>✉️ <span id="info-email">...</span></p>
+              <p>🕗 Giờ mở cửa: 8:00 – 21:00 mỗi ngày</p>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="card-header">
+              <div class="card-title"><span>Liên hệ đã gửi</span> <span class="badge badge-secondary" id="contact-count">0</span></div>
+            </div>
+            <div class="card-body" id="contact-list">
+              <!-- Render động bằng js/contact.js -->
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/storage.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script src="js/contact.js"></script>
+</body>
+</html>

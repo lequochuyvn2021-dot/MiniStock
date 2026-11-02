@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Báo Cáo Thống Kê &amp; Lợi Nhuận - MiniStock</title>
+    <link rel="icon" type="image/svg+xml" href="images/logo/icon.svg" />
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- SIDEBAR ĐIỀU HƯỚNG -->
+      <aside class="app-sidebar">
+        <div class="sidebar-header">
+          <a href="index.html" class="sidebar-brand">
+            <img src="images/logo/logo.svg" alt="MiniStock Logo" />
+          </a>
+        </div>
+
+        <ul class="sidebar-menu">
+          <li class="menu-category-title">TỔNG QUAN</li>
+          <li class="menu-item">
+            <a href="index.html" class="menu-link">
+              <span class="menu-icon">📊</span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+
+          <li class="menu-category-title">BÁN HÀNG &amp; KHO</li>
+          <li class="menu-item" data-role-allow="admin,staff">
+            <a href="sales.html" class="menu-link">
+              <span class="menu-icon">🛒</span>
+              <span>Bán hàng (POS)</span>
+            </a>
+          </li>
+          <li class="menu-item" data-role-allow="admin,staff">
+            <a href="orders.html" class="menu-link">
+              <span class="menu-icon">📑</span>
+              <span>Quản lý đơn hàng</span>
+            </a>
+          </li>
+          <li class="menu-item" data-role-allow="admin,warehouse">
+            <a href="inventory.html" class="menu-link">
+              <span class="menu-icon">📦</span>
+              <span>Quản lý kho</span>
+            </a>
+          </li>
+
+          <li class="menu-category-title">DANH MỤC &amp; SẢN PHẨM</li>
+          <li class="menu-item" data-role-allow="admin,staff,warehouse">
+            <a href="products.html" class="menu-link">
+              <span class="menu-icon">🏷️</span>
+              <span>Sản phẩm</span>
+            </a>
+          </li>
+          <li class="menu-item" data-role-allow="admin,warehouse">
+            <a href="categories.html" class="menu-link">
+              <span class="menu-icon">📂</span>
+              <span>Danh mục</span>
+            </a>
+          </li>
+
+          <li class="menu-category-title">ĐỐI TÁC &amp; KHÁCH HÀNG</li>
+          <li class="menu-item" data-role-allow="admin,staff">
+            <a href="customers.html" class="menu-link">
+              <span class="menu-icon">👥</span>
+              <span>Khách hàng</span>
+            </a>
+          </li>
+
+          <li class="menu-category-title">BÁO CÁO &amp; HỆ THỐNG</li>
+          <li class="menu-item" data-role-allow="admin">
+            <a href="reports.html" class="menu-link active">
+              <span class="menu-icon">📈</span>
+              <span>Báo cáo thống kê</span>
+            </a>
+          </li>
+          <li class="menu-item" data-role-allow="admin">
+            <a href="users.html" class="menu-link">
+              <span class="menu-icon">⚙️</span>
+              <span>Tài khoản &amp; Vai trò</span>
+            </a>
+          </li>
+          <li class="menu-category-title">THÔNG TIN</li>
+          <li class="menu-item">
+            <a href="about.html" class="menu-link">
+              <span class="menu-icon">ℹ️</span>
+              <span>Giới thiệu</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="contact.html" class="menu-link">
+              <span class="menu-icon">✉️</span>
+              <span>Liên hệ &amp; Góp ý</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <div><strong>MiniStock</strong> v1.0</div>
+          <button
+            type="button"
+            id="btn-reset-demo"
+            class="btn btn-outline btn-sm"
+            title="Khôi phục dữ liệu mẫu gốc"
+          >
+            🔄
+          </button>
+        </div>
+      </aside>
+
+      <!-- NỘI DUNG CHÍNH -->
+      <div class="app-main">
+        <header class="app-header">
+          <div class="header-left">
+            <button
+              type="button"
+              id="btn-sidebar-toggle"
+              class="btn-sidebar-toggle"
+              aria-label="Mở menu"
+            >
+              ☰
+            </button>
+            <div class="header-title-box">
+              <h1 id="header-page-title">Báo Cáo Thống Kê</h1>
+              <p>
+                Phân tích hiệu quả kinh doanh, doanh thu, lợi nhuận gộp và tồn
+                kho
+              </p>
+            </div>
+          </div>
+
+          <div class="header-right">
+            <button
+              type="button"
+              id="btn-export-backup"
+              class="btn btn-outline btn-sm"
+              title="Sao lưu JSON"
+            >
+              💾<span class="btn-label"> Sao lưu</span>
+            </button>
+            <div class="header-user-profile">
+              <div class="user-avatar" id="header-user-avatar">👤</div>
+              <div class="user-info">
+                <span class="user-name" id="header-user-name">Đang tải...</span>
+                <span class="role-badge" id="header-user-role">...</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              id="btn-logout"
+              class="btn btn-outline btn-sm text-danger"
+              title="Đăng xuất"
+            >
+              🚪<span class="btn-label"> Đăng xuất</span>
+            </button>
+          </div>
+        </header>
+
+        <main class="app-content">
+          <!-- BỘ LỌC THỜI GIAN BÁO CÁO -->
+          <div class="card u-mb-20">
+            <div class="card-body u-pad-14-20">
+              <div class="u-flex-between-wrap">
+                <div class="u-flex-center-wrap">
+                  <span class="filter-title">Khoảng thời gian:</span>
+                  <select id="report-time-range" class="select-control">
+                    <option value="all">Toàn bộ thời gian</option>
+                    <option value="today">Hôm nay</option>
+                    <option value="week">7 ngày qua</option>
+                    <option value="month">30 ngày qua</option>
+                  </select>
+
+                  <span class="filter-label">Từ:</span>
+                  <input
+                    type="date"
+                    id="report-from-date"
+                    class="input-control"
+                  />
+                  <span class="filter-label">Đến:</span>
+                  <input
+                    type="date"
+                    id="report-to-date"
+                    class="input-control"
+                  />
+
+                  <button
+                    type="button"
+                    id="btn-apply-report-filter"
+                    class="btn btn-primary btn-sm"
+                  >
+                    Áp dụng
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  id="btn-export-report"
+                  class="btn btn-outline btn-sm"
+                >
+                  📥 Xuất dữ liệu báo cáo
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CÁC THẺ CHỈ SỐ DOANH THU & LỢI NHUẬN GỘP -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon primary">💵</div>
+              <div class="stat-details">
+                <div class="stat-label">Tổng doanh thu bán hàng</div>
+                <div class="stat-value text-primary" id="report-stat-revenue">
+                  0 đ
+                </div>
+                <div class="stat-desc">Chỉ tính các đơn hoàn tất hợp lệ</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon success">📈</div>
+              <div class="stat-details">
+                <div class="stat-label">Lợi nhuận gộp ước tính</div>
+                <div class="stat-value text-success" id="report-stat-profit">
+                  0 đ
+                </div>
+                <div class="stat-desc">Doanh thu trừ Giá vốn (COGS)</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon info">📦</div>
+              <div class="stat-details">
+                <div class="stat-label">Giá trị kho hiện tại</div>
+                <div class="stat-value" id="report-stat-stock-value">0 đ</div>
+                <div class="stat-desc">Theo giá vốn của toàn bộ kho</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon warning">📑</div>
+              <div class="stat-details">
+                <div class="stat-label">Số đơn hàng hợp lệ</div>
+                <div class="stat-value" id="report-stat-orders">0 đơn</div>
+                <div class="stat-desc">Không tính các đơn bị hủy</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- GHI CHÚ QUAN TRỌNG VỀ CÔNG THỨC LỢI NHUẬN GỘP (CHO BẢO VỆ ĐỒ ÁN) -->
+          <div class="note-box note-info">
+            <strong>ℹ️ Ghi chú công thức tài chính:</strong> Lợi nhuận gộp ước
+            tính =
+            <em
+              >Doanh thu thực tế (đã trừ giảm giá) &minus; Giá vốn hàng bán (Số
+              lượng &times; Giá nhập)</em
+            >. Đây là <strong>Lợi nhuận gộp (Gross Profit)</strong>, chưa bao
+            gồm các chi phí vận hành cửa hàng như mặt bằng, nhân sự, tiền điện
+            nước. Đơn hàng bị hủy sẽ không được tính vào doanh thu và lợi nhuận.
+          </div>
+
+          <!-- BIỂU ĐỒ DOANH THU CANVAS THUẦN -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">📊 Xu hướng doanh thu theo ngày</h2>
+            </div>
+            <div class="card-body">
+              <canvas
+                class="chart-canvas chart-h-260"
+                id="report-revenue-canvas"
+                width="900"
+                height="260"
+              ></canvas>
+            </div>
+          </div>
+
+          <!-- HAI BẢNG BÁO CÁO PHÂN TÍCH -->
+          <div class="pos-layout grid-1-1">
+            <!-- TOP SẢN PHẨM BÁN CHẠY -->
+            <div class="card u-mb-0">
+              <div class="card-header">
+                <h2 class="card-title">🏆 Top sản phẩm bán chạy nhất</h2>
+              </div>
+              <div class="card-body u-pad-0">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Hạng</th>
+                        <th>Tên sản phẩm</th>
+                        <th class="text-center">Số lượng bán</th>
+                        <th class="text-right">Doanh số</th>
+                      </tr>
+                    </thead>
+                    <tbody id="report-top-products-body">
+                      <tr>
+                        <td colspan="4" class="text-center text-muted u-pad-20">
+                          Đang tải...
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- SẢN PHẨM TỒN THẤP & HẾT HÀNG -->
+            <div class="card u-mb-0">
+              <div class="card-header">
+                <h2 class="card-title">⚠️ Sản phẩm tồn thấp &amp; Hết hàng</h2>
+              </div>
+              <div class="card-body u-pad-0">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Mã SP</th>
+                        <th>Tên sản phẩm</th>
+                        <th class="text-center">Tồn</th>
+                        <th>Cảnh báo</th>
+                        <th>Nhà cung cấp</th>
+                      </tr>
+                    </thead>
+                    <tbody id="report-low-stock-body">
+                      <tr>
+                        <td colspan="5" class="text-center text-muted u-pad-20">
+                          Đang tải...
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- SCRIPTS DỰ ÁN -->
+    <script src="js/storage.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/reports.js"></script>
+  </body>
+</html>
