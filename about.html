@@ -169,11 +169,11 @@
           <section class="about-hero">
             <h2>MiniStock – quản lý kho và bán hàng cho cửa hàng nhỏ</h2>
             <p>
-              Đây là đồ án môn Thiết kế Web của em. Website giúp một cửa hàng
-              văn phòng phẩm và phụ kiện nhỏ theo dõi hàng trong kho, bán hàng
-              tại quầy, in hóa đơn và xem báo cáo doanh thu mà không cần cài
-              thêm phần mềm nào. Toàn bộ dữ liệu được lưu trong trình duyệt bằng
-              LocalStorage nên mở file lên là dùng được.
+              Hệ thống hỗ trợ các cửa hàng bán lẻ (văn phòng phẩm, phụ kiện...)
+              theo dõi hàng tồn kho, thực hiện bán hàng tại quầy, in hóa đơn và
+              xem báo cáo doanh thu trực quan mà không cần cài đặt phần mềm phức
+              tạp. Toàn bộ dữ liệu được lưu trữ trực tiếp trên trình duyệt qua
+              LocalStorage, cho phép sử dụng ngay sau khi mở file.
             </p>
           </section>
 
@@ -212,24 +212,25 @@
             <article class="card about-item u-pad-20">
               <h3>🎯 Mục tiêu</h3>
               <p>
-                Làm một trang web quản lý có đủ các chức năng chính của cửa hàng
-                nhỏ: sản phẩm, danh mục, kho, bán hàng, đơn hàng, khách hàng và
-                báo cáo.
+                Xây dựng ứng dụng web quản lý bán hàng đáp ứng đầy đủ các chức
+                năng cốt lõi: Quản lý sản phẩm, Danh mục, Tồn kho, Bán hàng
+                (POS), Đơn hàng, Khách hàng và Báo cáo thống kê.
               </p>
             </article>
             <article class="card about-item u-pad-20">
               <h3>👤 Ai dùng?</h3>
               <p>
-                Có 3 vai trò: Quản trị viên (toàn quyền), Nhân viên bán hàng
-                (POS, đơn hàng, khách hàng) và Thủ kho (kho, sản phẩm, danh
-                mục).
+                Phân quyền 3 vai trò rõ ràng: Quản trị viên (Toàn quyền), Nhân
+                viên bán hàng (Thao tác POS & Đơn hàng), và Thủ kho (Quản lý
+                nhập/xóa kho & Sản phẩm).
               </p>
             </article>
             <article class="card about-item u-pad-20">
               <h3>🛠️ Công nghệ</h3>
               <p>
-                Chỉ dùng HTML, CSS, JavaScript và Form thuần. Không dùng
-                framework hay thư viện nào, biểu đồ cũng tự vẽ bằng thẻ canvas.
+                Xây dựng hoàn toàn bằng HTML5, CSS3 và JavaScript thuần (Vanilla
+                JS). Không phụ thuộc vào framework/thư viện bên ngoài; hệ thống
+                biểu đồ được dựng trực tiếp bằng Canvas HTML5.
               </p>
             </article>
           </section>
@@ -241,44 +242,46 @@
             <div class="card-body">
               <ol class="about-list">
                 <li>
-                  <strong>Dashboard</strong> (index.html): số liệu tổng quan,
-                  biểu đồ doanh thu 7 ngày, đơn gần đây, hàng sắp hết.
+                  <strong>Dashboard</strong> (index.html):Tổng quan số liệu,
+                  biểu đồ doanh thu 7 ngày, đơn hàng mới và cảnh báo hàng sắp
+                  hết.
                 </li>
                 <li>
-                  <strong>Sản phẩm</strong> (products.html): thêm, sửa, xem, tìm
-                  kiếm và lọc sản phẩm (Form 2).
+                  <strong>Sản phẩm</strong> (products.html): Thêm, sửa, xóa, tìm
+                  kiếm và lọc danh sách sản phẩm.
                 </li>
                 <li>
-                  <strong>Danh mục</strong> (categories.html): quản lý nhóm
-                  hàng, không cho xóa khi còn sản phẩm.
+                  <strong>Danh mục</strong> (categories.html): Quản lý nhóm
+                  hàng, hỗ trợ ràng buộc không cho xóa danh mục đang chứa sản
+                  phẩm.
                 </li>
                 <li>
-                  <strong>Quản lý kho</strong> (inventory.html): nhập kho, xuất
-                  kho, kiểm kê và lịch sử biến động.
+                  <strong>Quản lý kho</strong> (inventory.html):Theo dõi nhập
+                  kho, xuất kho, kiểm kê và lịch sử biến động tồn kho.
                 </li>
                 <li>
-                  <strong>Bán hàng POS</strong> (sales.html): chọn hàng vào giỏ,
-                  giảm giá, thanh toán, in hóa đơn.
+                  <strong>Bán hàng POS</strong> (sales.html): Giao diện thu ngân
+                  chọn hàng, áp dụng giảm giá, thanh toán và in hóa đơn.
                 </li>
                 <li>
-                  <strong>Đơn hàng</strong> (orders.html): xem, lọc, in lại và
-                  hủy đơn (hoàn kho một lần duy nhất).
+                  <strong>Đơn hàng</strong> (orders.html): Xem chi tiết, lọc
+                  danh sách và hủy đơn hàng.
                 </li>
                 <li>
-                  <strong>Khách hàng</strong> (customers.html): hồ sơ khách và
-                  Form nhập liệu chính (Form 1).
+                  <strong>Khách hàng</strong> (customers.html): Quản lý hồ sơ
+                  khách hàng và lưu trữ thông tin giao dịch.
                 </li>
                 <li>
-                  <strong>Báo cáo</strong> (reports.html): doanh thu, giá trị
-                  kho, lợi nhuận gộp ước tính.
+                  <strong>Báo cáo</strong> (reports.html): Thống kê doanh thu,
+                  giá trị tồn kho và ước tính lợi nhuận gộp.
                 </li>
                 <li>
-                  <strong>Tài khoản</strong> (users.html): danh sách tài khoản
-                  và bảng phân quyền.
+                  <strong>Tài khoản</strong> (users.html): Quản lý danh sách tài
+                  khoản và phân quyền truy cập hệ thống.
                 </li>
                 <li>
-                  <strong>Giới thiệu</strong> và <strong>Liên hệ</strong>: hai
-                  trang thông tin, trang liên hệ có form gửi góp ý (Form 3).
+                  <strong>Giới thiệu</strong> và <strong>Liên hệ</strong>: Thông
+                  tin đồ án, hướng dẫn sử dụng và biểu mẫu gửi góp ý.
                 </li>
               </ol>
             </div>
