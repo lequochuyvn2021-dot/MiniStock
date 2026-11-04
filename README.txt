@@ -7,6 +7,8 @@ Họ và tên : LÊ QUỐC HUY
 MSSV      : 24C48020111
 Lớp       : CÔNG NGHỆ THÔNG TIN 49
 Giảng viên: MS.NHUNG
+Link web  : https://ministock-lime.vercel.app/
+            (đăng nhập thử: admin / admin123)
 
 
 1. GIỚI THIỆU
