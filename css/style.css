@@ -507,7 +507,7 @@ a:hover {
 }
 
 .stat-value {
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 700;
   color: var(--text-main);
   line-height: 1.2;
