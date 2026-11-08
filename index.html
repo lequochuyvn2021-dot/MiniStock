@@ -1,472 +1,560 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Tổng Quan - MiniStock Quản Lý Kho & Bán Hàng</title>
-  <link rel="icon" type="image/svg+xml" href="images/logo/icon.svg">
-  <script src="js/theme.js"></script>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/responsive.css">
-</head>
-<body>
-
-<div class="app-container">
-  <!-- SIDEBAR ĐIỀU HƯỚNG -->
-  <aside class="app-sidebar">
-    <div class="sidebar-header">
-      <a href="index.html" class="sidebar-brand">
-        <img src="images/logo/logo.svg" alt="MiniStock Logo">
-      </a>
-    </div>
-
-    <ul class="sidebar-menu">
-      <li class="menu-category-title">TỔNG QUAN</li>
-      <li class="menu-item">
-        <a href="index.html" class="menu-link active">
-          <span class="menu-icon">📊</span>
-          <span>Dashboard</span>
-        </a>
-      </li>
-
-      <li class="menu-category-title">BÁN HÀNG &amp; KHO</li>
-      <li class="menu-item" data-role-allow="admin,staff">
-        <a href="sales.html" class="menu-link">
-          <span class="menu-icon">🛒</span>
-          <span>Bán hàng (POS)</span>
-        </a>
-      </li>
-      <li class="menu-item" data-role-allow="admin,staff">
-        <a href="orders.html" class="menu-link">
-          <span class="menu-icon">📑</span>
-          <span>Quản lý đơn hàng</span>
-        </a>
-      </li>
-      <li class="menu-item" data-role-allow="admin,warehouse">
-        <a href="inventory.html" class="menu-link">
-          <span class="menu-icon">📦</span>
-          <span>Quản lý kho</span>
-        </a>
-      </li>
-
-      <li class="menu-category-title">DANH MỤC &amp; SẢN PHẨM</li>
-      <li class="menu-item" data-role-allow="admin,staff,warehouse">
-        <a href="products.html" class="menu-link">
-          <span class="menu-icon">🏷️</span>
-          <span>Sản phẩm</span>
-        </a>
-      </li>
-      <li class="menu-item" data-role-allow="admin,warehouse">
-        <a href="categories.html" class="menu-link">
-          <span class="menu-icon">📂</span>
-          <span>Danh mục</span>
-        </a>
-      </li>
-
-      <li class="menu-category-title">ĐỐI TÁC &amp; KHÁCH HÀNG</li>
-      <li class="menu-item" data-role-allow="admin,staff">
-        <a href="customers.html" class="menu-link">
-          <span class="menu-icon">👥</span>
-          <span>Khách hàng</span>
-        </a>
-      </li>
-
-      <li class="menu-category-title">BÁO CÁO &amp; HỆ THỐNG</li>
-      <li class="menu-item" data-role-allow="admin">
-        <a href="reports.html" class="menu-link">
-          <span class="menu-icon">📈</span>
-          <span>Báo cáo thống kê</span>
-        </a>
-      </li>
-      <li class="menu-item" data-role-allow="admin">
-        <a href="users.html" class="menu-link">
-          <span class="menu-icon">⚙️</span>
-          <span>Tài khoản &amp; Vai trò</span>
-        </a>
-      </li>
-      <li class="menu-category-title">THÔNG TIN</li>
-      <li class="menu-item">
-        <a href="about.html" class="menu-link">
-          <span class="menu-icon">ℹ️</span>
-          <span>Giới thiệu</span>
-        </a>
-      </li>
-      <li class="menu-item">
-        <a href="contact.html" class="menu-link">
-          <span class="menu-icon">✉️</span>
-          <span>Liên hệ &amp; Góp ý</span>
-        </a>
-      </li>
-    </ul>
-
-    <div class="sidebar-footer">
-      <div>
-        <strong>MiniStock</strong> v1.0<br>
-        <small>Đồ án Sinh viên CNTT</small>
-      </div>
-      <button type="button" id="btn-reset-demo" class="btn btn-outline btn-sm" title="Khôi phục dữ liệu mẫu gốc">
-        🔄
-      </button>
-    </div>
-  </aside>
-
-  <!-- NỘI DUNG CHÍNH -->
-  <div class="app-main">
-    <!-- HEADER -->
-    <header class="app-header">
-      <div class="header-left">
-        <button type="button" id="btn-sidebar-toggle" class="btn-sidebar-toggle" aria-label="Mở menu">
-          ☰
-        </button>
-        <div class="header-title-box">
-          <h1 id="header-page-title">Dashboard Tổng Quan</h1>
-          <p>Số liệu hoạt động thực tế của cửa hàng MiniStock</p>
-        </div>
-      </div>
-
-      <div class="header-right">
-        <!-- Nút xuất sao lưu JSON nhanh -->
-        <button type="button" id="btn-export-backup" class="btn btn-outline btn-sm" title="Xuất sao lưu toàn bộ dữ liệu">
-          💾<span class="btn-label"> Sao lưu</span>
-        </button>
-
-        <!-- Thông tin người dùng đang đăng nhập -->
-        <div class="header-user-profile">
-          <div class="user-avatar" id="header-user-avatar">👤</div>
-          <div class="user-info">
-            <span class="user-name" id="header-user-name">Đang tải...</span>
-            <span class="role-badge" id="header-user-role">...</span>
-          </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Tổng Quan - MiniStock Quản Lý Kho & Bán Hàng</title>
+    <link rel="icon" type="image/svg+xml" href="images/logo/icon.svg" />
+    <script src="js/theme.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- SIDEBAR ĐIỀU HƯỚNG -->
+      <aside class="app-sidebar">
+        <div class="sidebar-header">
+          <a href="index.html" class="sidebar-brand">
+            <img src="images/logo/logo.svg" alt="MiniStock Logo" />
+          </a>
         </div>
 
-        <button type="button" id="btn-logout" class="btn btn-outline btn-sm text-danger" title="Đăng xuất">
-          🚪<span class="btn-label"> Đăng xuất</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- MAIN BODY CONTENT -->
-    <main class="app-content">
-      <!-- LƯỚI THẺ THỐNG KÊ (TÍNH TỪ DỮ LIỆU THẬT) -->
-      <section class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon primary">🏷️</div>
-          <div class="stat-details">
-            <div class="stat-label">Tổng sản phẩm</div>
-            <div class="stat-value" id="dash-total-products">0</div>
-            <div class="stat-desc" id="dash-categories-count">0 danh mục</div>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon success">💰</div>
-          <div class="stat-details">
-            <div class="stat-label">Doanh thu tích lũy</div>
-            <div class="stat-value" id="dash-total-revenue">0 đ</div>
-            <div class="stat-desc" id="dash-today-revenue">Hôm nay: 0 đ</div>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon info">📑</div>
-          <div class="stat-details">
-            <div class="stat-label">Tổng đơn hàng</div>
-            <div class="stat-value" id="dash-total-orders">0</div>
-            <div class="stat-desc" id="dash-completed-orders">0 đơn thành công</div>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon warning">📦</div>
-          <div class="stat-details">
-            <div class="stat-label">Giá trị kho ước tính</div>
-            <div class="stat-value" id="dash-stock-value">0 đ</div>
-            <div class="stat-desc">Tính theo giá vốn nhập</div>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div class="stat-icon danger">⚠️</div>
-          <div class="stat-details">
-            <div class="stat-label">Cảnh báo tồn kho</div>
-            <div class="stat-value text-danger" id="dash-stock-warning">0 SP</div>
-            <div class="stat-desc" id="dash-out-of-stock-desc">0 SP đã hết hàng</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- KHỐI BIỂU ĐỒ & LỐI TẮT NHANH -->
-      <div class="pos-layout grid-2-1">
-        <div class="card u-mb-0">
-          <div class="card-header">
-            <h2 class="card-title">📈 Doanh thu 7 ngày gần nhất (VNĐ)</h2>
-            <small class="text-muted">Tính từ các đơn hoàn tất</small>
-          </div>
-          <div class="card-body">
-            <canvas class="chart-canvas chart-h-240" id="dashboard-revenue-canvas" width="620" height="240"></canvas>
-          </div>
-        </div>
-
-        <div class="card u-mb-0">
-          <div class="card-header">
-            <h2 class="card-title">⚡ Thao tác nhanh</h2>
-          </div>
-          <div class="card-body u-flex-col-gap-10">
-            <a href="sales.html" class="btn btn-primary btn-quick">
-              <span class="u-fs-18">🛒</span> Bán hàng &amp; Lập hóa đơn mới
+        <ul class="sidebar-menu">
+          <li class="menu-category-title">TỔNG QUAN</li>
+          <li class="menu-item">
+            <a href="index.html" class="menu-link active">
+              <span class="menu-icon">📊</span>
+              <span>Dashboard</span>
             </a>
-            <a href="inventory.html" class="btn btn-success btn-quick">
-              <span class="u-fs-18">📥</span> Nhập hàng vào kho
-            </a>
-            <a href="products.html" class="btn btn-outline btn-quick">
-              <span class="u-fs-18">➕</span> Thêm sản phẩm mới
-            </a>
-            <a href="reports.html" class="btn btn-outline btn-quick">
-              <span class="u-fs-18">📊</span> Xem báo cáo lợi nhuận gộp
-            </a>
-          </div>
-        </div>
-      </div>
+          </li>
 
-      <!-- HAI BẢNG DỮ LIỆU GẦN ĐÂY -->
-      <div class="pos-layout grid-1-1">
-        <!-- Đơn hàng mới nhất -->
-        <div class="card u-mb-0">
-          <div class="card-header">
-            <h2 class="card-title">📄 Đơn hàng gần đây</h2>
-            <a href="orders.html" class="btn btn-outline btn-sm">Xem tất cả &rarr;</a>
-          </div>
-          <div class="card-body u-pad-0">
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Mã đơn</th>
-                    <th>Khách hàng</th>
-                    <th>Tổng tiền</th>
-                    <th>Trạng thái</th>
-                  </tr>
-                </thead>
-                <tbody id="dash-recent-orders-body">
-                  <tr><td colspan="4" class="text-center text-muted u-pad-20">Đang tải dữ liệu...</td></tr>
-                </tbody>
-              </table>
+          <li class="menu-category-title">BÁN HÀNG &amp; KHO</li>
+          <li class="menu-item" data-role-allow="admin,staff">
+            <a href="sales.html" class="menu-link">
+              <span class="menu-icon">🛒</span>
+              <span>Bán hàng (POS)</span>
+            </a>
+          </li>
+          <li class="menu-item" data-role-allow="admin,staff">
+            <a href="orders.html" class="menu-link">
+              <span class="menu-icon">📑</span>
+              <span>Quản lý đơn hàng</span>
+            </a>
+          </li>
+          <li class="menu-item" data-role-allow="admin,warehouse">
+            <a href="inventory.html" class="menu-link">
+              <span class="menu-icon">📦</span>
+              <span>Quản lý kho</span>
+            </a>
+          </li>
+
+          <li class="menu-category-title">DANH MỤC &amp; SẢN PHẨM</li>
+          <li class="menu-item" data-role-allow="admin,staff,warehouse">
+            <a href="products.html" class="menu-link">
+              <span class="menu-icon">🏷️</span>
+              <span>Sản phẩm</span>
+            </a>
+          </li>
+          <li class="menu-item" data-role-allow="admin,warehouse">
+            <a href="categories.html" class="menu-link">
+              <span class="menu-icon">📂</span>
+              <span>Danh mục</span>
+            </a>
+          </li>
+
+          <li class="menu-category-title">ĐỐI TÁC &amp; KHÁCH HÀNG</li>
+          <li class="menu-item" data-role-allow="admin,staff">
+            <a href="customers.html" class="menu-link">
+              <span class="menu-icon">👥</span>
+              <span>Khách hàng</span>
+            </a>
+          </li>
+
+          <li class="menu-category-title">BÁO CÁO &amp; HỆ THỐNG</li>
+          <li class="menu-item" data-role-allow="admin">
+            <a href="reports.html" class="menu-link">
+              <span class="menu-icon">📈</span>
+              <span>Báo cáo thống kê</span>
+            </a>
+          </li>
+          <li class="menu-item" data-role-allow="admin">
+            <a href="users.html" class="menu-link">
+              <span class="menu-icon">⚙️</span>
+              <span>Tài khoản &amp; Vai trò</span>
+            </a>
+          </li>
+          <li class="menu-category-title">THÔNG TIN</li>
+          <li class="menu-item">
+            <a href="about.html" class="menu-link">
+              <span class="menu-icon">ℹ️</span>
+              <span>Giới thiệu</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="contact.html" class="menu-link">
+              <span class="menu-icon">✉️</span>
+              <span>Liên hệ &amp; Góp ý</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="sidebar-footer">
+          <div><strong>MiniStock</strong> v1.0<br /></div>
+          <button
+            type="button"
+            id="btn-reset-demo"
+            class="btn btn-outline btn-sm"
+            title="Khôi phục dữ liệu mẫu gốc"
+          >
+            🔄
+          </button>
+        </div>
+      </aside>
+
+      <!-- NỘI DUNG CHÍNH -->
+      <div class="app-main">
+        <!-- HEADER -->
+        <header class="app-header">
+          <div class="header-left">
+            <button
+              type="button"
+              id="btn-sidebar-toggle"
+              class="btn-sidebar-toggle"
+              aria-label="Mở menu"
+            >
+              ☰
+            </button>
+            <div class="header-title-box">
+              <h1 id="header-page-title">Dashboard Tổng Quan</h1>
+              <p>Số liệu hoạt động thực tế của cửa hàng MiniStock</p>
             </div>
           </div>
-        </div>
 
-        <!-- Sản phẩm cần nhập thêm -->
-        <div class="card u-mb-0">
-          <div class="card-header">
-            <h2 class="card-title">⚠️ Hàng sắp hết &amp; Đã hết</h2>
-            <a href="inventory.html" class="btn btn-outline btn-sm">Quản lý kho &rarr;</a>
+          <div class="header-right">
+            <!-- Nút xuất sao lưu JSON nhanh -->
+            <button
+              type="button"
+              id="btn-export-backup"
+              class="btn btn-outline btn-sm"
+              title="Xuất sao lưu toàn bộ dữ liệu"
+            >
+              💾<span class="btn-label"> Sao lưu</span>
+            </button>
+
+            <!-- Thông tin người dùng đang đăng nhập -->
+            <div class="header-user-profile">
+              <div class="user-avatar" id="header-user-avatar">👤</div>
+              <div class="user-info">
+                <span class="user-name" id="header-user-name">Đang tải...</span>
+                <span class="role-badge" id="header-user-role">...</span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              id="btn-logout"
+              class="btn btn-outline btn-sm text-danger"
+              title="Đăng xuất"
+            >
+              🚪<span class="btn-label"> Đăng xuất</span>
+            </button>
           </div>
-          <div class="card-body u-pad-0">
-            <div class="table-responsive">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th>Sản phẩm</th>
-                    <th>Tồn</th>
-                    <th>Đơn vị</th>
-                    <th>Trạng thái</th>
-                  </tr>
-                </thead>
-                <tbody id="dash-need-restock-body">
-                  <tr><td colspan="4" class="text-center text-muted u-pad-20">Đang tải dữ liệu...</td></tr>
-                </tbody>
-              </table>
+        </header>
+
+        <!-- MAIN BODY CONTENT -->
+        <main class="app-content">
+          <!-- LƯỚI THẺ THỐNG KÊ (TÍNH TỪ DỮ LIỆU THẬT) -->
+          <section class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon primary">🏷️</div>
+              <div class="stat-details">
+                <div class="stat-label">Tổng sản phẩm</div>
+                <div class="stat-value" id="dash-total-products">0</div>
+                <div class="stat-desc" id="dash-categories-count">
+                  0 danh mục
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon success">💰</div>
+              <div class="stat-details">
+                <div class="stat-label">Doanh thu tích lũy</div>
+                <div class="stat-value" id="dash-total-revenue">0 đ</div>
+                <div class="stat-desc" id="dash-today-revenue">
+                  Hôm nay: 0 đ
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon info">📑</div>
+              <div class="stat-details">
+                <div class="stat-label">Tổng đơn hàng</div>
+                <div class="stat-value" id="dash-total-orders">0</div>
+                <div class="stat-desc" id="dash-completed-orders">
+                  0 đơn thành công
+                </div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon warning">📦</div>
+              <div class="stat-details">
+                <div class="stat-label">Giá trị kho ước tính</div>
+                <div class="stat-value" id="dash-stock-value">0 đ</div>
+                <div class="stat-desc">Tính theo giá vốn nhập</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon danger">⚠️</div>
+              <div class="stat-details">
+                <div class="stat-label">Cảnh báo tồn kho</div>
+                <div class="stat-value text-danger" id="dash-stock-warning">
+                  0 SP
+                </div>
+                <div class="stat-desc" id="dash-out-of-stock-desc">
+                  0 SP đã hết hàng
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- KHỐI BIỂU ĐỒ & LỐI TẮT NHANH -->
+          <div class="pos-layout grid-2-1">
+            <div class="card u-mb-0">
+              <div class="card-header">
+                <h2 class="card-title">📈 Doanh thu 7 ngày gần nhất (VNĐ)</h2>
+                <small class="text-muted">Tính từ các đơn hoàn tất</small>
+              </div>
+              <div class="card-body">
+                <canvas
+                  class="chart-canvas chart-h-240"
+                  id="dashboard-revenue-canvas"
+                  width="620"
+                  height="240"
+                ></canvas>
+              </div>
+            </div>
+
+            <div class="card u-mb-0">
+              <div class="card-header">
+                <h2 class="card-title">⚡ Thao tác nhanh</h2>
+              </div>
+              <div class="card-body u-flex-col-gap-10">
+                <a href="sales.html" class="btn btn-primary btn-quick">
+                  <span class="u-fs-18">🛒</span> Bán hàng &amp; Lập hóa đơn mới
+                </a>
+                <a href="inventory.html" class="btn btn-success btn-quick">
+                  <span class="u-fs-18">📥</span> Nhập hàng vào kho
+                </a>
+                <a href="products.html" class="btn btn-outline btn-quick">
+                  <span class="u-fs-18">➕</span> Thêm sản phẩm mới
+                </a>
+                <a href="reports.html" class="btn btn-outline btn-quick">
+                  <span class="u-fs-18">📊</span> Xem báo cáo lợi nhuận gộp
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+
+          <!-- HAI BẢNG DỮ LIỆU GẦN ĐÂY -->
+          <div class="pos-layout grid-1-1">
+            <!-- Đơn hàng mới nhất -->
+            <div class="card u-mb-0">
+              <div class="card-header">
+                <h2 class="card-title">📄 Đơn hàng gần đây</h2>
+                <a href="orders.html" class="btn btn-outline btn-sm"
+                  >Xem tất cả &rarr;</a
+                >
+              </div>
+              <div class="card-body u-pad-0">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Mã đơn</th>
+                        <th>Khách hàng</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dash-recent-orders-body">
+                      <tr>
+                        <td colspan="4" class="text-center text-muted u-pad-20">
+                          Đang tải dữ liệu...
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sản phẩm cần nhập thêm -->
+            <div class="card u-mb-0">
+              <div class="card-header">
+                <h2 class="card-title">⚠️ Hàng sắp hết &amp; Đã hết</h2>
+                <a href="inventory.html" class="btn btn-outline btn-sm"
+                  >Quản lý kho &rarr;</a
+                >
+              </div>
+              <div class="card-body u-pad-0">
+                <div class="table-responsive">
+                  <table class="data-table">
+                    <thead>
+                      <tr>
+                        <th>Sản phẩm</th>
+                        <th>Tồn</th>
+                        <th>Đơn vị</th>
+                        <th>Trạng thái</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dash-need-restock-body">
+                      <tr>
+                        <td colspan="4" class="text-center text-muted u-pad-20">
+                          Đang tải dữ liệu...
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
-    </main>
-  </div>
-</div>
+    </div>
 
-<!-- SCRIPTS DỰ ÁN -->
-<script src="js/storage.js"></script>
-<script src="js/validation.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/main.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Yêu cầu đăng nhập (Tất cả vai trò admin, staff, warehouse đều có thể xem dashboard)
-    const currentUser = Auth.requireAuth(['admin', 'staff', 'warehouse']);
-    if (!currentUser) return;
+    <!-- SCRIPTS DỰ ÁN -->
+    <script src="js/storage.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Yêu cầu đăng nhập (Tất cả vai trò admin, staff, warehouse đều có thể xem dashboard)
+        const currentUser = Auth.requireAuth(["admin", "staff", "warehouse"]);
+        if (!currentUser) return;
 
-    renderDashboardData();
-  });
+        renderDashboardData();
+      });
 
-  function renderDashboardData() {
-    const products = StorageService.get(STORAGE_KEYS.PRODUCTS, []);
-    const categories = StorageService.get(STORAGE_KEYS.CATEGORIES, []);
-    const orders = StorageService.get(STORAGE_KEYS.ORDERS, []);
-    const settings = StorageService.get(STORAGE_KEYS.SETTINGS, DEFAULT_SETTINGS);
-    const lowStockThreshold = Number(settings.lowStockThreshold) || 5;
+      function renderDashboardData() {
+        const products = StorageService.get(STORAGE_KEYS.PRODUCTS, []);
+        const categories = StorageService.get(STORAGE_KEYS.CATEGORIES, []);
+        const orders = StorageService.get(STORAGE_KEYS.ORDERS, []);
+        const settings = StorageService.get(
+          STORAGE_KEYS.SETTINGS,
+          DEFAULT_SETTINGS,
+        );
+        const lowStockThreshold = Number(settings.lowStockThreshold) || 5;
 
-    // 1. Thống kê sản phẩm
-    document.getElementById('dash-total-products').textContent = products.length;
-    document.getElementById('dash-categories-count').textContent = `${categories.length} danh mục`;
+        // 1. Thống kê sản phẩm
+        document.getElementById("dash-total-products").textContent =
+          products.length;
+        document.getElementById("dash-categories-count").textContent =
+          `${categories.length} danh mục`;
 
-    // 2. Thống kê đơn hàng & doanh thu
-    const completedOrders = orders.filter(o => o.status === 'completed');
-    const totalRevenue = completedOrders.reduce((sum, o) => sum + o.total, 0);
+        // 2. Thống kê đơn hàng & doanh thu
+        const completedOrders = orders.filter((o) => o.status === "completed");
+        const totalRevenue = completedOrders.reduce(
+          (sum, o) => sum + o.total,
+          0,
+        );
 
-    const todayStr = new Date().toISOString().slice(0, 10);
-    const todayOrders = completedOrders.filter(o => new Date(o.createdAt).toISOString().slice(0, 10) === todayStr);
-    const todayRevenue = todayOrders.reduce((sum, o) => sum + o.total, 0);
+        const todayStr = new Date().toISOString().slice(0, 10);
+        const todayOrders = completedOrders.filter(
+          (o) => new Date(o.createdAt).toISOString().slice(0, 10) === todayStr,
+        );
+        const todayRevenue = todayOrders.reduce((sum, o) => sum + o.total, 0);
 
-    document.getElementById('dash-total-revenue').textContent = Format.currency(totalRevenue);
-    document.getElementById('dash-today-revenue').textContent = `Hôm nay: ${Format.currency(todayRevenue)}`;
-    document.getElementById('dash-total-orders').textContent = orders.length;
-    document.getElementById('dash-completed-orders').textContent = `${completedOrders.length} đơn hoàn tất`;
+        document.getElementById("dash-total-revenue").textContent =
+          Format.currency(totalRevenue);
+        document.getElementById("dash-today-revenue").textContent =
+          `Hôm nay: ${Format.currency(todayRevenue)}`;
+        document.getElementById("dash-total-orders").textContent =
+          orders.length;
+        document.getElementById("dash-completed-orders").textContent =
+          `${completedOrders.length} đơn hoàn tất`;
 
-    // 3. Giá trị tồn kho
-    const stockValuation = products.reduce((sum, p) => sum + (p.stock * p.costPrice), 0);
-    document.getElementById('dash-stock-value').textContent = Format.currency(stockValuation);
+        // 3. Giá trị tồn kho
+        const stockValuation = products.reduce(
+          (sum, p) => sum + p.stock * p.costPrice,
+          0,
+        );
+        document.getElementById("dash-stock-value").textContent =
+          Format.currency(stockValuation);
 
-    // 4. Cảnh báo tồn kho
-    const lowStockItems = products.filter(p => p.stock > 0 && p.stock <= lowStockThreshold);
-    const outOfStockItems = products.filter(p => p.stock === 0);
-    document.getElementById('dash-stock-warning').textContent = `${lowStockItems.length + outOfStockItems.length} SP`;
-    document.getElementById('dash-out-of-stock-desc').textContent = `${outOfStockItems.length} SP đã hết hàng`;
+        // 4. Cảnh báo tồn kho
+        const lowStockItems = products.filter(
+          (p) => p.stock > 0 && p.stock <= lowStockThreshold,
+        );
+        const outOfStockItems = products.filter((p) => p.stock === 0);
+        document.getElementById("dash-stock-warning").textContent =
+          `${lowStockItems.length + outOfStockItems.length} SP`;
+        document.getElementById("dash-out-of-stock-desc").textContent =
+          `${outOfStockItems.length} SP đã hết hàng`;
 
-    // 5. Đơn hàng gần đây
-    const recentOrdersBody = document.getElementById('dash-recent-orders-body');
-    const recentOrders = [...orders].slice(0, 5);
+        // 5. Đơn hàng gần đây
+        const recentOrdersBody = document.getElementById(
+          "dash-recent-orders-body",
+        );
+        const recentOrders = [...orders].slice(0, 5);
 
-    if (recentOrders.length === 0) {
-      recentOrdersBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted u-pad-20">Chưa có đơn hàng nào.</td></tr>';
-    } else {
-      recentOrdersBody.innerHTML = recentOrders.map(o => `
+        if (recentOrders.length === 0) {
+          recentOrdersBody.innerHTML =
+            '<tr><td colspan="4" class="text-center text-muted u-pad-20">Chưa có đơn hàng nào.</td></tr>';
+        } else {
+          recentOrdersBody.innerHTML = recentOrders
+            .map(
+              (o) => `
         <tr>
           <td class="font-bold text-primary">${o.id}</td>
           <td>${o.customerName}</td>
           <td class="font-bold">${Format.currency(o.total)}</td>
-          <td>${o.status === 'completed' ? '<span class="badge badge-success">Hoàn tất</span>' : '<span class="badge badge-danger">Đã hủy</span>'}</td>
+          <td>${o.status === "completed" ? '<span class="badge badge-success">Hoàn tất</span>' : '<span class="badge badge-danger">Đã hủy</span>'}</td>
         </tr>
-      `).join('');
-    }
+      `,
+            )
+            .join("");
+        }
 
-    // 6. Sản phẩm cần nhập thêm
-    const restockBody = document.getElementById('dash-need-restock-body');
-    const restockItems = products.filter(p => p.stock <= lowStockThreshold).sort((a, b) => a.stock - b.stock).slice(0, 5);
+        // 6. Sản phẩm cần nhập thêm
+        const restockBody = document.getElementById("dash-need-restock-body");
+        const restockItems = products
+          .filter((p) => p.stock <= lowStockThreshold)
+          .sort((a, b) => a.stock - b.stock)
+          .slice(0, 5);
 
-    if (restockItems.length === 0) {
-      restockBody.innerHTML = '<tr><td colspan="4" class="text-center text-success u-pad-20">✓ Tồn kho an toàn.</td></tr>';
-    } else {
-      restockBody.innerHTML = restockItems.map(p => `
+        if (restockItems.length === 0) {
+          restockBody.innerHTML =
+            '<tr><td colspan="4" class="text-center text-success u-pad-20">✓ Tồn kho an toàn.</td></tr>';
+        } else {
+          restockBody.innerHTML = restockItems
+            .map(
+              (p) => `
         <tr>
           <td>
             <div class="font-bold">${p.name}</div>
             <small class="text-muted">${p.id}</small>
           </td>
-          <td class="font-bold text-center stock-num ${p.stock === 0 ? 'stock-num-out' : 'stock-num-low'}">${p.stock}</td>
+          <td class="font-bold text-center stock-num ${p.stock === 0 ? "stock-num-out" : "stock-num-low"}">${p.stock}</td>
           <td>${p.unit}</td>
           <td>${p.stock === 0 ? '<span class="badge badge-danger">Hết</span>' : '<span class="badge badge-warning">Sắp hết</span>'}</td>
         </tr>
-      `).join('');
-    }
+      `,
+            )
+            .join("");
+        }
 
-    // 7. Vẽ biểu đồ Canvas thuần
-    lastChartOrders = completedOrders;
-    drawDashboardCanvas(completedOrders);
-  }
-
-  // Nhớ dữ liệu lần vẽ gần nhất để vẽ lại khi người dùng đổi chế độ sáng/tối
-  let lastChartOrders = [];
-  document.addEventListener('themechange', () => drawDashboardCanvas(lastChartOrders));
-
-  function drawDashboardCanvas(orders) {
-    const canvas = document.getElementById('dashboard-revenue-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const days = [];
-    const labels = [];
-    const totals = [];
-
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      const key = d.toISOString().slice(0, 10);
-      days.push(key);
-      labels.push(`${d.getDate()}/${d.getMonth() + 1}`);
-
-      const sum = orders
-        .filter(o => new Date(o.createdAt).toISOString().slice(0, 10) === key)
-        .reduce((s, o) => s + o.total, 0);
-
-      totals.push(sum);
-    }
-
-    // Cho canvas rộng đúng bằng khung chứa để chữ và cột không bị kéo giãn
-    if (canvas.clientWidth > 0) canvas.width = canvas.clientWidth;
-    const width = canvas.width;
-    const height = canvas.height;
-    ctx.clearRect(0, 0, width, height);
-
-    const maxVal = Math.max(...totals, 400000);
-    const pad = { top: 25, right: 20, bottom: 35, left: 65 };
-    const chartW = width - pad.left - pad.right;
-    const chartH = height - pad.top - pad.bottom;
-
-    // Lưới ngang
-    // Màu lấy từ biến CSS để đổi theo chế độ sáng/tối
-    ctx.strokeStyle = Theme.cssVar('--chart-grid', '#f1f5f9');
-    ctx.lineWidth = 1;
-    ctx.fillStyle = Theme.cssVar('--chart-label', '#64748b');
-    ctx.font = '11px sans-serif';
-
-    const steps = 3;
-    for (let i = 0; i <= steps; i++) {
-      const y = pad.top + (chartH / steps) * i;
-      const val = Math.round(maxVal - (maxVal / steps) * i);
-
-      ctx.beginPath();
-      ctx.moveTo(pad.left, y);
-      ctx.lineTo(width - pad.right, y);
-      ctx.stroke();
-
-      ctx.textAlign = 'right';
-      ctx.fillText(Format.currency(val).replace('₫', '').trim(), pad.left - 6, y + 4);
-    }
-
-    const barW = Math.min(32, (chartW / days.length) * 0.5);
-    const stepX = chartW / days.length;
-
-    totals.forEach((val, i) => {
-      const x = pad.left + (stepX * i) + (stepX - barW) / 2;
-      const barH = (val / maxVal) * chartH;
-      const y = pad.top + chartH - barH;
-
-      const grad = ctx.createLinearGradient(x, y, x, y + barH);
-      grad.addColorStop(0, Theme.cssVar('--chart-bar-top', '#2563eb'));
-      grad.addColorStop(1, Theme.cssVar('--chart-bar-bottom', '#93c5fd'));
-
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      if (ctx.roundRect) {
-        ctx.roundRect(x, y, barW, barH, [4, 4, 0, 0]);
-        ctx.fill();
-      } else {
-        ctx.fillRect(x, y, barW, barH);
+        // 7. Vẽ biểu đồ Canvas thuần
+        lastChartOrders = completedOrders;
+        drawDashboardCanvas(completedOrders);
       }
 
-      ctx.fillStyle = Theme.cssVar('--text-soft', '#475569');
-      ctx.textAlign = 'center';
-      ctx.fillText(labels[i], x + barW / 2, height - pad.bottom + 16);
+      // Nhớ dữ liệu lần vẽ gần nhất để vẽ lại khi người dùng đổi chế độ sáng/tối
+      let lastChartOrders = [];
+      document.addEventListener("themechange", () =>
+        drawDashboardCanvas(lastChartOrders),
+      );
 
-      if (val > 0) {
-        ctx.fillStyle = Theme.cssVar('--chart-value', '#1e40af');
-        ctx.font = 'bold 10px sans-serif';
-        ctx.fillText(`${Math.round(val / 1000)}k`, x + barW / 2, y - 5);
-        ctx.font = '11px sans-serif';
+      function drawDashboardCanvas(orders) {
+        const canvas = document.getElementById("dashboard-revenue-canvas");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        const days = [];
+        const labels = [];
+        const totals = [];
+
+        for (let i = 6; i >= 0; i--) {
+          const d = new Date();
+          d.setDate(d.getDate() - i);
+          const key = d.toISOString().slice(0, 10);
+          days.push(key);
+          labels.push(`${d.getDate()}/${d.getMonth() + 1}`);
+
+          const sum = orders
+            .filter(
+              (o) => new Date(o.createdAt).toISOString().slice(0, 10) === key,
+            )
+            .reduce((s, o) => s + o.total, 0);
+
+          totals.push(sum);
+        }
+
+        // Cho canvas rộng đúng bằng khung chứa để chữ và cột không bị kéo giãn
+        if (canvas.clientWidth > 0) canvas.width = canvas.clientWidth;
+        const width = canvas.width;
+        const height = canvas.height;
+        ctx.clearRect(0, 0, width, height);
+
+        const maxVal = Math.max(...totals, 400000);
+        const pad = { top: 25, right: 20, bottom: 35, left: 65 };
+        const chartW = width - pad.left - pad.right;
+        const chartH = height - pad.top - pad.bottom;
+
+        // Lưới ngang
+        // Màu lấy từ biến CSS để đổi theo chế độ sáng/tối
+        ctx.strokeStyle = Theme.cssVar("--chart-grid", "#f1f5f9");
+        ctx.lineWidth = 1;
+        ctx.fillStyle = Theme.cssVar("--chart-label", "#64748b");
+        ctx.font = "11px sans-serif";
+
+        const steps = 3;
+        for (let i = 0; i <= steps; i++) {
+          const y = pad.top + (chartH / steps) * i;
+          const val = Math.round(maxVal - (maxVal / steps) * i);
+
+          ctx.beginPath();
+          ctx.moveTo(pad.left, y);
+          ctx.lineTo(width - pad.right, y);
+          ctx.stroke();
+
+          ctx.textAlign = "right";
+          ctx.fillText(
+            Format.currency(val).replace("₫", "").trim(),
+            pad.left - 6,
+            y + 4,
+          );
+        }
+
+        const barW = Math.min(32, (chartW / days.length) * 0.5);
+        const stepX = chartW / days.length;
+
+        totals.forEach((val, i) => {
+          const x = pad.left + stepX * i + (stepX - barW) / 2;
+          const barH = (val / maxVal) * chartH;
+          const y = pad.top + chartH - barH;
+
+          const grad = ctx.createLinearGradient(x, y, x, y + barH);
+          grad.addColorStop(0, Theme.cssVar("--chart-bar-top", "#2563eb"));
+          grad.addColorStop(1, Theme.cssVar("--chart-bar-bottom", "#93c5fd"));
+
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          if (ctx.roundRect) {
+            ctx.roundRect(x, y, barW, barH, [4, 4, 0, 0]);
+            ctx.fill();
+          } else {
+            ctx.fillRect(x, y, barW, barH);
+          }
+
+          ctx.fillStyle = Theme.cssVar("--text-soft", "#475569");
+          ctx.textAlign = "center";
+          ctx.fillText(labels[i], x + barW / 2, height - pad.bottom + 16);
+
+          if (val > 0) {
+            ctx.fillStyle = Theme.cssVar("--chart-value", "#1e40af");
+            ctx.font = "bold 10px sans-serif";
+            ctx.fillText(`${Math.round(val / 1000)}k`, x + barW / 2, y - 5);
+            ctx.font = "11px sans-serif";
+          }
+        });
       }
-    });
-  }
-</script>
-</body>
+    </script>
+  </body>
 </html>
